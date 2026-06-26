@@ -42,7 +42,7 @@ def test_preprocessor_shapes():
 
 def test_models_fit_predict_and_handle_unknown_categories():
     spec, df, y = _toy_spec_and_data()
-    models = build_models(spec, n_pos=int(y.sum()), n_neg=int((1 - y).sum()))
+    models = build_models(spec)
     assert set(models) == {"logistic_regression", "xgboost"}
 
     for name, pipe in models.items():
@@ -55,7 +55,9 @@ def test_models_fit_predict_and_handle_unknown_categories():
         assert proba.shape == (5,)
         assert np.all((proba >= 0) & (proba <= 1))
 
-        # Discrimination metrics are well-formed on the training data.
+        # Discrimination metrics are well-formed on the training data
+        # (tolerance absorbs floating-point overshoot when the toy data is
+        # perfectly separable).
         m = evaluate(pipe, df, y)
-        assert 0.0 <= m["auroc"] <= 1.0
-        assert 0.0 <= m["auprc"] <= 1.0
+        assert 0.0 <= m["auroc"] <= 1.0 + 1e-9
+        assert 0.0 <= m["auprc"] <= 1.0 + 1e-9

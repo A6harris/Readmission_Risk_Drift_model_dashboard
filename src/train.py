@@ -86,20 +86,25 @@ def build_preprocessor(spec: dict) -> ColumnTransformer:
     )
 
 
-def build_models(spec: dict, n_pos: int, n_neg: int) -> dict[str, Pipeline]:
-    """Return the candidate pipelines, each = preprocessor + estimator."""
-    pre = build_preprocessor
+def build_models(spec: dict) -> dict[str, Pipeline]:
+    """Return the candidate pipelines, each = preprocessor + estimator.
 
-    # Both models address the ~9% class imbalance: LR via class_weight, XGBoost
-    # via scale_pos_weight (= negatives / positives).
-    scale_pos_weight = n_neg / n_pos
+    DESIGN NOTE — we deliberately do *not* rebalance the classes (no
+    ``class_weight='balanced'``, no ``scale_pos_weight``). Those tricks improve
+    ranking marginally but systematically inflate predicted probabilities,
+    which wrecks calibration — and calibration is the whole point of this
+    project (Phase 3 evaluates Brier score and net benefit, both of which
+    depend on honest probabilities). The class imbalance is instead handled
+    where it belongs: at *decision time*, by choosing an operating threshold
+    from the decision-curve analysis, not by distorting the probabilities.
+    """
+    pre = build_preprocessor
 
     logreg = Pipeline([
         ("pre", pre(spec)),
         ("clf", LogisticRegression(
             # L2 is the default; C controls the regularization strength.
             C=1.0,
-            class_weight="balanced",
             max_iter=2000,
             solver="lbfgs",
             random_state=SEED,
@@ -116,7 +121,6 @@ def build_models(spec: dict, n_pos: int, n_neg: int) -> dict[str, Pipeline]:
             colsample_bytree=0.8,
             reg_lambda=1.0,
             min_child_weight=5,
-            scale_pos_weight=scale_pos_weight,
             eval_metric="aucpr",
             tree_method="hist",
             n_jobs=-1,
@@ -156,10 +160,9 @@ def main() -> None:
     y_test = test_df[target].to_numpy()
 
     n_pos = int(y_train.sum())
-    n_neg = int(len(y_train) - n_pos)
     print(f"[train] {len(X_train)} rows | positives={n_pos} ({y_train.mean():.4f})")
 
-    models = build_models(spec, n_pos=n_pos, n_neg=n_neg)
+    models = build_models(spec)
     cv = StratifiedKFold(n_splits=args.cv_folds, shuffle=True, random_state=SEED)
 
     # --- Model selection: cross-validated AUPRC on the training set only. -----
