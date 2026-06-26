@@ -1,0 +1,34 @@
+# Data — never commit the raw dataset or intermediate artifacts
+data/raw/
+data/processed/
+
+# Models & generated reports
+models/*.pkl
+models/*.joblib
+reports/*.html
+reports/figures/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Notebooks
+.ipynb_checkpoints/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Streamlit
+.streamlit/secrets.toml

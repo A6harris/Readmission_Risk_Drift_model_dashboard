@@ -1,0 +1,28 @@
+# Core data / modeling
+pandas>=2.1
+numpy>=1.26
+scikit-learn>=1.4
+xgboost>=2.0
+
+# Explainability
+shap>=0.44
+
+# Fairness
+fairlearn>=0.10
+
+# Drift detection / monitoring
+evidently>=0.4
+
+# Dashboard
+streamlit>=1.30
+
+# Plotting
+plotly>=5.18
+matplotlib>=3.8
+
+# Utilities
+joblib>=1.3
+requests>=2.31
+
+# Tests
+pytest>=8.0
