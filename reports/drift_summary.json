@@ -1,0 +1,83 @@
+{
+  "reference": {
+    "n": 6999,
+    "prevalence": 0.08572653236176597,
+    "auroc": 0.6540529770276606,
+    "auprc": 0.17565404599000128,
+    "brier": 0.07567714154720306,
+    "alert_rate": 0.2931847406772396,
+    "mean_pred": 0.08896152675151825
+  },
+  "thresholds": {
+    "drift_share_alert": 0.3,
+    "auroc_drop_alert": 0.03,
+    "brier_rise_alert": 0.02,
+    "outreach_threshold": 0.1
+  },
+  "scenarios": {
+    "baseline": {
+      "html": "drift_baseline.html",
+      "drift_share": 0.0,
+      "n": 6999,
+      "prevalence": 0.09387055293613374,
+      "auroc": 0.6614080611631188,
+      "auprc": 0.20377924313645163,
+      "brier": 0.08122850209474564,
+      "alert_rate": 0.2930418631233033,
+      "mean_pred": 0.08980080485343933,
+      "retrain_recommended": false,
+      "reasons": [],
+      "auroc_drop": -0.007355084135458156,
+      "brier_rise": 0.005551360547542572
+    },
+    "age_shift": {
+      "html": "drift_age_shift.html",
+      "drift_share": 0.06976744186046512,
+      "n": 6999,
+      "prevalence": 0.10487212458922704,
+      "auroc": 0.6622184142254774,
+      "auprc": 0.21538211365879234,
+      "brier": 0.08979978412389755,
+      "alert_rate": 0.35976568081154453,
+      "mean_pred": 0.09807790815830231,
+      "retrain_recommended": false,
+      "reasons": [],
+      "auroc_drop": -0.008165437197816816,
+      "brier_rise": 0.014122642576694489
+    },
+    "pipeline_break": {
+      "html": "drift_pipeline_break.html",
+      "drift_share": 0.023255813953488372,
+      "n": 6999,
+      "prevalence": 0.09387055293613374,
+      "auroc": 0.6110956312126592,
+      "auprc": 0.15196133539130308,
+      "brier": 0.08400265127420425,
+      "alert_rate": 0.14616373767681098,
+      "mean_pred": 0.07268953323364258,
+      "retrain_recommended": true,
+      "reasons": [
+        "AUROC fell 0.043 (>=0.03) vs reference"
+      ],
+      "auroc_drop": 0.042957345815001435,
+      "brier_rise": 0.00832550972700119
+    },
+    "prevalence_surge": {
+      "html": "drift_prevalence_surge.html",
+      "drift_share": 0.0,
+      "n": 6999,
+      "prevalence": 0.22888984140591512,
+      "auroc": 0.6686891061918387,
+      "auprc": 0.3985789914947347,
+      "brier": 0.18384891748428345,
+      "alert_rate": 0.324903557651093,
+      "mean_pred": 0.09548557549715042,
+      "retrain_recommended": true,
+      "reasons": [
+        "Brier rose 0.108 (>=0.02) vs reference"
+      ],
+      "auroc_drop": -0.014636129164178113,
+      "brier_rise": 0.10817177593708038
+    }
+  }
+}
