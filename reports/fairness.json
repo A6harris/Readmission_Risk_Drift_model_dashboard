@@ -1,0 +1,284 @@
+{
+  "threshold": 0.1,
+  "attributes": {
+    "race": {
+      "by_group": [
+        {
+          "race": "AfricanAmerican",
+          "count": 2504,
+          "selection_rate": 0.249600639,
+          "tpr": 0.4935064935,
+          "fpr": 0.2248130224,
+          "precision": 0.1824,
+          "auroc": 0.6835770184,
+          "mean_pred": 0.0843265504,
+          "observed_rate": 0.0922523962,
+          "low_evidence": false
+        },
+        {
+          "race": "Asian",
+          "count": 96,
+          "selection_rate": 0.1770833333,
+          "tpr": 0.5555555556,
+          "fpr": 0.1379310345,
+          "precision": 0.2941176471,
+          "auroc": 0.8084291188,
+          "mean_pred": 0.0767059401,
+          "observed_rate": 0.09375,
+          "low_evidence": true
+        },
+        {
+          "race": "Caucasian",
+          "count": 10522,
+          "selection_rate": 0.3106823798,
+          "tpr": 0.4958071279,
+          "fpr": 0.2922240803,
+          "precision": 0.1446925665,
+          "auroc": 0.6466838602,
+          "mean_pred": 0.0916591212,
+          "observed_rate": 0.0906671735,
+          "low_evidence": false
+        },
+        {
+          "race": "Hispanic",
+          "count": 286,
+          "selection_rate": 0.2482517483,
+          "tpr": 0.5,
+          "fpr": 0.21875,
+          "precision": 0.2112676056,
+          "auroc": 0.6856770833,
+          "mean_pred": 0.0823561102,
+          "observed_rate": 0.1048951049,
+          "low_evidence": false
+        },
+        {
+          "race": "Missing",
+          "count": 361,
+          "selection_rate": 0.216066482,
+          "tpr": 0.4090909091,
+          "fpr": 0.203539823,
+          "precision": 0.1153846154,
+          "auroc": 0.6846339501,
+          "mean_pred": 0.0773373395,
+          "observed_rate": 0.0609418283,
+          "low_evidence": false
+        },
+        {
+          "race": "Other",
+          "count": 229,
+          "selection_rate": 0.1877729258,
+          "tpr": 0.5454545455,
+          "fpr": 0.1697247706,
+          "precision": 0.1395348837,
+          "auroc": 0.8094245204,
+          "mean_pred": 0.0730578154,
+          "observed_rate": 0.0480349345,
+          "low_evidence": false
+        }
+      ],
+      "disparities": {
+        "selection_rate_gap": 0.12290945401151593,
+        "selection_rate_min_group": "Other",
+        "selection_rate_max_group": "Caucasian",
+        "tpr_gap": 0.1363636363636363,
+        "tpr_min_group": "Missing",
+        "tpr_max_group": "Other",
+        "fpr_gap": 0.12249930962535668,
+        "fpr_min_group": "Other",
+        "fpr_max_group": "Caucasian",
+        "precision_gap": 0.09588299024918742,
+        "precision_min_group": "Missing",
+        "precision_max_group": "Hispanic",
+        "auroc_gap": 0.1627406602743936,
+        "auroc_min_group": "Caucasian",
+        "auroc_max_group": "Other"
+      }
+    },
+    "gender": {
+      "by_group": [
+        {
+          "gender": "Female",
+          "count": 7507,
+          "selection_rate": 0.3071799654,
+          "tpr": 0.5256024096,
+          "fpr": 0.2859856788,
+          "precision": 0.1513443192,
+          "auroc": 0.6644295287,
+          "mean_pred": 0.0899571553,
+          "observed_rate": 0.0884507793,
+          "low_evidence": false
+        },
+        {
+          "gender": "Male",
+          "count": 6491,
+          "selection_rate": 0.2768448621,
+          "tpr": 0.4603709949,
+          "fpr": 0.2583926755,
+          "precision": 0.1519198664,
+          "auroc": 0.6506441432,
+          "mean_pred": 0.0887150243,
+          "observed_rate": 0.0913572639,
+          "low_evidence": false
+        }
+      ],
+      "disparities": {
+        "selection_rate_gap": 0.030335103248881667,
+        "selection_rate_min_group": "Male",
+        "selection_rate_max_group": "Female",
+        "tpr_gap": 0.06523141469757615,
+        "tpr_min_group": "Male",
+        "tpr_max_group": "Female",
+        "fpr_gap": 0.027593003312635145,
+        "fpr_min_group": "Male",
+        "fpr_max_group": "Female",
+        "precision_gap": 0.0005755472766840464,
+        "precision_min_group": "Female",
+        "precision_max_group": "Male",
+        "auroc_gap": 0.0137853854842519,
+        "auroc_min_group": "Male",
+        "auroc_max_group": "Female"
+      }
+    },
+    "age": {
+      "by_group": [
+        {
+          "age": "[0-10)",
+          "count": 29,
+          "selection_rate": 0.0344827586,
+          "tpr": 0.0,
+          "fpr": 0.0344827586,
+          "precision": 0.0,
+          "auroc": null,
+          "mean_pred": 0.0391361788,
+          "observed_rate": 0.0,
+          "low_evidence": true
+        },
+        {
+          "age": "[10-20)",
+          "count": 109,
+          "selection_rate": 0.0733944954,
+          "tpr": 0.4,
+          "fpr": 0.0576923077,
+          "precision": 0.25,
+          "auroc": 0.8,
+          "mean_pred": 0.0554740131,
+          "observed_rate": 0.0458715596,
+          "low_evidence": false
+        },
+        {
+          "age": "[20-30)",
+          "count": 204,
+          "selection_rate": 0.1715686275,
+          "tpr": 0.6666666667,
+          "fpr": 0.1322751323,
+          "precision": 0.2857142857,
+          "auroc": 0.7679012346,
+          "mean_pred": 0.0755997151,
+          "observed_rate": 0.0735294118,
+          "low_evidence": false
+        },
+        {
+          "age": "[30-40)",
+          "count": 537,
+          "selection_rate": 0.1266294227,
+          "tpr": 0.3428571429,
+          "fpr": 0.1115537849,
+          "precision": 0.1764705882,
+          "auroc": 0.7091064314,
+          "mean_pred": 0.070032239,
+          "observed_rate": 0.0651769088,
+          "low_evidence": false
+        },
+        {
+          "age": "[40-50)",
+          "count": 1352,
+          "selection_rate": 0.1671597633,
+          "tpr": 0.3191489362,
+          "fpr": 0.1558028617,
+          "precision": 0.1327433628,
+          "auroc": 0.6203531441,
+          "mean_pred": 0.0731030181,
+          "observed_rate": 0.0695266272,
+          "low_evidence": false
+        },
+        {
+          "age": "[50-60)",
+          "count": 2466,
+          "selection_rate": 0.1435523114,
+          "tpr": 0.3435897436,
+          "fpr": 0.1263760458,
+          "precision": 0.1892655367,
+          "auroc": 0.6669263512,
+          "mean_pred": 0.0688681901,
+          "observed_rate": 0.0790754258,
+          "low_evidence": false
+        },
+        {
+          "age": "[60-70)",
+          "count": 3125,
+          "selection_rate": 0.27904,
+          "tpr": 0.401459854,
+          "fpr": 0.2672746405,
+          "precision": 0.126146789,
+          "auroc": 0.6243692186,
+          "mean_pred": 0.0892831758,
+          "observed_rate": 0.08768,
+          "low_evidence": false
+        },
+        {
+          "age": "[70-80)",
+          "count": 3606,
+          "selection_rate": 0.3849140322,
+          "tpr": 0.6111111111,
+          "fpr": 0.3584262701,
+          "precision": 0.166426513,
+          "auroc": 0.6630581945,
+          "mean_pred": 0.101893954,
+          "observed_rate": 0.1048252912,
+          "low_evidence": false
+        },
+        {
+          "age": "[80-90)",
+          "count": 2239,
+          "selection_rate": 0.4658329611,
+          "tpr": 0.6447368421,
+          "fpr": 0.4455494779,
+          "precision": 0.1409395973,
+          "auroc": 0.6452493741,
+          "mean_pred": 0.1086539701,
+          "observed_rate": 0.1018311746,
+          "low_evidence": false
+        },
+        {
+          "age": "[90-100)",
+          "count": 331,
+          "selection_rate": 0.3262839879,
+          "tpr": 0.3939393939,
+          "fpr": 0.3187919463,
+          "precision": 0.1203703704,
+          "auroc": 0.6065690462,
+          "mean_pred": 0.0983875915,
+          "observed_rate": 0.0996978852,
+          "low_evidence": false
+        }
+      ],
+      "disparities": {
+        "selection_rate_gap": 0.39243846573052354,
+        "selection_rate_min_group": "[10-20)",
+        "selection_rate_max_group": "[80-90)",
+        "tpr_gap": 0.34751773049645385,
+        "tpr_min_group": "[40-50)",
+        "tpr_max_group": "[20-30)",
+        "fpr_gap": 0.3878571701793979,
+        "fpr_min_group": "[10-20)",
+        "fpr_max_group": "[80-90)",
+        "precision_gap": 0.16534391534391535,
+        "precision_min_group": "[90-100)",
+        "precision_max_group": "[20-30)",
+        "auroc_gap": 0.1934309538336384,
+        "auroc_min_group": "[90-100)",
+        "auroc_max_group": "[10-20)"
+      }
+    }
+  }
+}
