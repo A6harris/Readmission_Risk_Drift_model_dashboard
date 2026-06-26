@@ -1,0 +1,37 @@
+{
+  "top_features_aggregated": {
+    "discharge_disposition_id": 3.2348439693450928,
+    "medical_specialty": 2.7842519283294678,
+    "diag_1_group": 0.9543675780296326,
+    "diag_2_group": 0.8955714106559753,
+    "admission_source_id": 0.7996001243591309,
+    "diag_3_group": 0.6177642941474915,
+    "admission_type_id": 0.43568870425224304,
+    "repaglinide": 0.3314277231693268,
+    "insulin": 0.2558315396308899,
+    "metformin": 0.25099998712539673,
+    "age": 0.22574391961097717,
+    "race": 0.22136741876602173,
+    "number_inpatient": 0.1731686294078827,
+    "diabetesMed": 0.14867030084133148,
+    "glimepiride": 0.13231787085533142
+  },
+  "top_features_encoded": {
+    "discharge_disposition_id_23": 0.9047931432723999,
+    "discharge_disposition_id_28": 0.6015722751617432,
+    "medical_specialty_Hematology/Oncology": 0.5223004817962646,
+    "discharge_disposition_id_2": 0.41079503297805786,
+    "discharge_disposition_id_1": 0.3509371280670166,
+    "repaglinide_Up": 0.3222779929637909,
+    "medical_specialty_Orthopedics-Reconstructive": 0.3123547434806824,
+    "discharge_disposition_id_25": 0.3076271712779999,
+    "diag_2_group_Neoplasms": 0.22187884151935577,
+    "discharge_disposition_id_22": 0.22167232632637024
+  },
+  "examples": {
+    "high_p": 0.6574472188949585,
+    "high_y": 1,
+    "low_p": 0.01639149710536003,
+    "low_y": 0
+  }
+}
