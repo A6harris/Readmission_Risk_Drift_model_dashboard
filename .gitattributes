@@ -1,0 +1,8 @@
+# Normalize line endings to LF in the repository so scripts, the Makefile, and
+# the Dockerfile work correctly on Linux / in Docker regardless of the OS used
+# to commit. Treat images as binary so they are never line-ending munged.
+* text=auto eol=lf
+*.png binary
+*.gif binary
+*.joblib binary
+*.pkl binary

@@ -1,0 +1,24 @@
+# Keep the build context small and let the image regenerate artifacts cleanly.
+.venv/
+venv/
+env/
+.git/
+.gitignore
+__pycache__/
+*.py[cod]
+
+# Regenerated inside the image by run_pipeline.py
+data/raw/
+data/processed/
+models/*.joblib
+models/*.pkl
+reports/*.html
+reports/figures/
+
+# Local cruft
+.pytest_cache/
+.ipynb_checkpoints/
+.vscode/
+.idea/
+*.md
+!README.md

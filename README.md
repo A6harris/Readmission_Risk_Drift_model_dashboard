@@ -4,8 +4,14 @@
 >
 > **The point isn't the AUC. The point is everything around it.**
 
-<!-- TODO: replace with a real demo GIF of the monitoring dashboard tripping a "RETRAIN RECOMMENDED" alert. This is the single most important visual in the repo. -->
-![Dashboard demo](docs/demo.gif)
+<!-- TODO: record a demo GIF of the monitoring dashboard tripping a "RETRAIN
+     RECOMMENDED" alert (run `streamlit run src/monitor_app.py`, switch the
+     Monitoring tab to "pipeline_break" / "prevalence_surge"), save it as
+     docs/demo.gif, and uncomment the line below. This is the single most
+     important visual in the repo. -->
+<!-- ![Dashboard demo](docs/demo.gif) -->
+
+> 📊 _Static result figures are shown under **[Results at a glance](#results-at-a-glance)** below; the live dashboard is one command away (see **[Quickstart](#quickstart)**)._
 
 <!-- TODO: add badges once set up, e.g.: -->
 <!-- ![Python](https://img.shields.io/badge/python-3.11-blue) ![License: MIT](https://img.shields.io/badge/license-MIT-green) [![Live demo](https://img.shields.io/badge/demo-live-brightgreen)](YOUR_DEPLOY_URL) -->
@@ -57,20 +63,61 @@ git clone https://github.com/{{your-username}}/readmission-monitoring.git
 cd readmission-monitoring
 
 # option A: local
-python -m venv .venv && source .venv/bin/activate
+python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
-python src/data_prep.py        # download + clean dataset
-python src/train.py            # train + serialize model
-streamlit run src/monitor_app.py
+python src/run_pipeline.py          # data prep -> train -> evaluate -> fairness -> explain -> drift
+streamlit run src/monitor_app.py    # launch the dashboard
 
-# option B: docker
+# option B: docker (builds all artifacts into the image, then serves the dashboard)
 docker build -t readmission-monitoring .
-docker run -p 8501:8501 readmission-monitoring
+docker run --rm -p 8501:8501 readmission-monitoring
 ```
 
-Then open http://localhost:8501.
+Then open http://localhost:8501. The pipeline downloads the dataset
+automatically. You can also run a single phase, e.g.
+`python src/run_pipeline.py --only drift`, or use the `Makefile`
+(`make pipeline`, `make app`, `make test`).
 
 <!-- TODO: if you deploy to Streamlit Community Cloud / HF Spaces, link the live demo here. -->
+
+## Results at a glance
+
+_Held-out test set (n = 13,998), 30-day readmission prevalence ≈ 9.0%._
+
+| | AUROC | AUPRC | Brier |
+|---|---|---|---|
+| Logistic regression (baseline) | 0.651 | 0.173 | — |
+| **XGBoost (selected)** | **0.658** | **0.189** | **0.0785** |
+
+The AUROC is modest **by design** — 30-day readmission is genuinely hard to
+predict from administrative data, and a suspiciously high number would be the
+red flag. What matters is that the model is **calibrated** (Brier 0.0785 beats
+the no-skill baseline of 0.0817) and adds **net benefit** across a realistic
+outreach threshold band (~4%–58%).
+
+| Calibration | Net benefit (decision curve) |
+|---|---|
+| ![Calibration](docs/figures/calibration.png) | ![Decision curve](docs/figures/decision_curve.png) |
+
+**Explainability (SHAP).** The strongest drivers are `discharge_disposition_id`
+and `medical_specialty` — confirmed at both the aggregated and per-column level.
+Raw prior-utilization counts rank lower than the literature expects, and
+`discharge_disposition_id` is **flagged for leakage/shortcut scrutiny**.
+
+![SHAP importance](docs/figures/shap_importance_grouped.png)
+
+**Fairness.** Calibration holds across subgroups, but reliability varies most by
+**age** (recall gap ≈ 0.35; selection rate climbs steeply with age). Several race
+subgroups are too small (n < 100) to draw conclusions — itself a key finding.
+
+![Fairness by age](docs/figures/fairness_age.png)
+
+**Monitoring.** Simulated shifts show the system distinguishes benign from
+harmful drift: a benign **age shift** is detected but not flagged; a **pipeline
+break** trips the AUROC rule; a **prevalence surge** (COVID-like) breaks
+calibration with *zero* feature drift — a label shift invisible to feature-drift
+monitoring but caught by performance tracking, which trips **RETRAIN
+RECOMMENDED**. See the full model card in [`models/model_card.md`](models/model_card.md).
 
 ## Data
 
@@ -82,7 +129,7 @@ This section is deliberately prominent, because for healthcare AI it matters as 
 
 - **Intended use.** Decision *support* for prioritizing care-management outreach — i.e., helping a care team decide whom to check in on. It is a research/portfolio demonstration, not a validated clinical tool.
 - **Out-of-scope and prohibited uses.** This model must **never** be used to gate, deny, or delay coverage, benefits, or access to care. It is not validated for any autonomous decision-making.
-- **Known limitations.** Trained on a historical (1999–2008), single-source dataset; performance is weakest for {{subgroups identified in the fairness audit — fill in after Phase 4}}. It is not externally validated on any current population.
+- **Known limitations.** Trained on a historical (1999–2008), single-source dataset. Performance is weakest for small subgroups where there is too little data to estimate reliably (e.g. Asian and "Other" race groups, n < 100) and for the working-age `[40-50)` band, which has the lowest recall. The model also leans heavily on `discharge_disposition_id`, which warrants a leakage/shortcut audit. It is not externally validated on any current population.
 - **What would need to be true to deploy responsibly.** Prospective validation on local, contemporary data; an active drift-monitoring process (the kind prototyped here); demographic-subgroup performance within acceptable bounds; and a human clinician in the loop for any individual decision.
 - **Failure modes to watch.** Dataset shift over time, distribution differences across sites, and feedback loops where the model's own use changes the population it predicts on.
 
@@ -93,19 +140,22 @@ readmission-monitoring/
 ├── README.md
 ├── PLAN.md
 ├── requirements.txt
-├── Dockerfile
-├── data/{raw,processed}/
+├── Dockerfile / .dockerignore
+├── Makefile
+├── data/{raw,processed}/        # gitignored; regenerated by the pipeline
+├── docs/figures/                # curated figures for this README
 ├── src/
-│   ├── data_prep.py     # load, clean, encode, split
-│   ├── train.py         # train + serialize
-│   ├── evaluate.py      # AUC, calibration, net benefit
+│   ├── data_prep.py     # load, clean, de-duplicate, split
+│   ├── train.py         # LR baseline + XGBoost in one pipeline
+│   ├── evaluate.py      # AUROC/AUPRC, calibration, net benefit
 │   ├── fairness.py      # subgroup metrics (Fairlearn)
-│   ├── explain.py       # SHAP
+│   ├── explain.py       # SHAP global + local
 │   ├── drift.py         # simulate shift + Evidently reports
-│   └── monitor_app.py   # Streamlit dashboard
-├── models/              # serialized model + model_card.md
-├── reports/             # generated drift reports, figures
-└── tests/
+│   ├── monitor_app.py   # Streamlit dashboard
+│   └── run_pipeline.py  # run every phase in order
+├── models/              # model.joblib (gitignored) + model_card.md + metrics.json
+├── reports/             # evaluation/fairness/drift JSON + md, Evidently HTML (gitignored)
+└── tests/               # pytest sanity checks
 ```
 
 ## References
@@ -125,7 +175,7 @@ readmission-monitoring/
 
 ## License
 
-{{MIT recommended for a portfolio project — add a LICENSE file.}}
+Released under the [MIT License](LICENSE).
 
 ---
 
