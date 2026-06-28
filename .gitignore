@@ -5,6 +5,7 @@ data/processed/
 # Models & generated reports
 models/*.pkl
 models/*.joblib
+models/retrain_log.jsonl
 reports/*.html
 reports/figures/
 

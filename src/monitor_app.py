@@ -20,6 +20,9 @@ telling you which step to run if an artifact is missing.
 from __future__ import annotations
 
 import json
+import os
+import subprocess
+import sys
 from pathlib import Path
 
 import pandas as pd
@@ -64,6 +67,29 @@ def show_figure(path: Path, caption: str | None = None):
         st.info(f"Figure not found: `{path.name}` — run the matching phase.")
 
 
+@st.cache_resource(show_spinner=False)
+def bootstrap_if_requested() -> bool:
+    """On a fresh deployment, optionally build all artifacts on first load.
+
+    Gated behind the ``AUTO_BOOTSTRAP=1`` environment variable so it never fires
+    during local dev or tests (where you run the pipeline yourself). Set it in
+    your hosting platform's environment to make the app self-provisioning. Runs
+    once per server process thanks to ``cache_resource``.
+    """
+    if os.environ.get("AUTO_BOOTSTRAP", "0") != "1":
+        return False
+    if (MODELS_DIR / "model.joblib").exists() and \
+            (REPORTS_DIR / "drift_summary.json").exists():
+        return False
+    with st.spinner("First run: downloading data, training the model, and "
+                    "generating reports. This takes a few minutes…"):
+        subprocess.run(
+            [sys.executable, str(PROJECT_ROOT / "src" / "run_pipeline.py")],
+            check=True,
+        )
+    return True
+
+
 # --------------------------------------------------------------------------- #
 # Header
 # --------------------------------------------------------------------------- #
@@ -75,6 +101,8 @@ st.caption(
     "analysis, and continuous drift monitoring. **The point isn't the AUC — "
     "it's everything around it.**"
 )
+
+bootstrap_if_requested()
 
 metrics = load_json(MODELS_DIR / "metrics.json")
 evaluation = load_json(REPORTS_DIR / "evaluation.json")

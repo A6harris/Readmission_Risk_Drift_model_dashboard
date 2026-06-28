@@ -1,0 +1,11 @@
+# Streamlit configuration used both locally and when deployed.
+[theme]
+base = "light"
+primaryColor = "#d6336c"        # used by the RETRAIN alert accent
+
+[server]
+# Allow the larger embedded Evidently reports.
+maxUploadSize = 50
+
+[browser]
+gatherUsageStats = false
