@@ -9,12 +9,35 @@ import numpy as np
 import pandas as pd
 
 from src.drift import (
+    plot_drift_panel,
     shift_age_older,
     shift_none,
     shift_pipeline_break,
     shift_prevalence_surge,
     verdict,
 )
+
+
+def _toy_summary():
+    """A minimal drift summary covering both verdicts, for the figure test."""
+    thresholds = {"drift_share_alert": 0.30, "auroc_drop_alert": 0.03,
+                  "brier_rise_alert": 0.02, "outreach_threshold": 0.10}
+    ref = {"n": 1000, "auroc": 0.66, "brier": 0.076, "prevalence": 0.09}
+
+    def sc(drift, auroc, brier, retrain):
+        return {"drift_share": drift, "auroc": auroc, "brier": brier,
+                "prevalence": 0.09, "retrain_recommended": retrain}
+
+    return {
+        "reference": ref,
+        "thresholds": thresholds,
+        "scenarios": {
+            "baseline": sc(0.0, 0.66, 0.077, False),
+            "age_shift": sc(0.07, 0.66, 0.090, False),
+            "pipeline_break": sc(0.02, 0.61, 0.084, True),
+            "prevalence_surge": sc(0.0, 0.67, 0.184, True),
+        },
+    }
 
 
 def _toy(n=400, seed=0):
@@ -79,3 +102,9 @@ def test_verdict_trips_on_performance_and_drift():
     v = verdict(good, ref, drift_share=0.5)
     assert v["retrain_recommended"] is True
     assert any("drift" in r for r in v["reasons"])
+
+
+def test_plot_drift_panel_writes_a_figure(tmp_path):
+    out = tmp_path / "drift_panel.png"
+    plot_drift_panel(_toy_summary(), out)
+    assert out.exists() and out.stat().st_size > 0

@@ -28,6 +28,7 @@ or performance decays past set thresholds — the signal the dashboard surfaces.
 Outputs:
   reports/drift_<scenario>.html   (Evidently visual reports)
   reports/drift_summary.json      (per-scenario drift + performance + verdict)
+  reports/figures/drift_panel.png (the static, committable drift visual)
 """
 
 from __future__ import annotations
@@ -37,9 +38,13 @@ import json
 from pathlib import Path
 
 import joblib
+import matplotlib
 import numpy as np
 import pandas as pd
-from sklearn.metrics import (
+
+matplotlib.use("Agg")  # headless: write files, never open a window
+import matplotlib.pyplot as plt  # noqa: E402
+from sklearn.metrics import (  # noqa: E402
     average_precision_score,
     brier_score_loss,
     roc_auc_score,
@@ -207,6 +212,92 @@ def verdict(scenario_perf: dict, ref_perf: dict, drift_share: float) -> dict:
 
 
 # --------------------------------------------------------------------------- #
+# Static drift figure — the committable visual the README/GitHub can show
+# --------------------------------------------------------------------------- #
+
+# Scenario display order + short labels, kept stable so the figure reads left to
+# right from control -> benign -> harmful.
+PLOT_ORDER = ["baseline", "age_shift", "pipeline_break", "prevalence_surge"]
+PLOT_LABELS = {
+    "baseline": "Baseline\n(control)",
+    "age_shift": "Age shift\n(older)",
+    "pipeline_break": "Pipeline\nbreak",
+    "prevalence_surge": "Prevalence\nsurge",
+}
+RETRAIN_COLOR = "#c0392b"  # red — alert tripped
+HEALTHY_COLOR = "#27ae60"  # green — within policy
+
+
+def plot_drift_panel(summary: dict, out_path: Path) -> None:
+    """Render the four scenarios as a three-panel monitoring story.
+
+    Left: data-drift share vs. the alert line. Middle: AUROC vs. the validated
+    reference and its drop tolerance. Right: Brier vs. reference and its rise
+    tolerance. Bars are coloured by the retrain verdict, so the eye lands first
+    on the scenarios that trip ``RETRAIN RECOMMENDED`` — making the central
+    claim ("we distinguish benign from harmful drift") legible at a glance.
+    """
+    ref = summary["reference"]
+    thr = summary["thresholds"]
+    scenarios = summary["scenarios"]
+    names = [n for n in PLOT_ORDER if n in scenarios]
+    labels = [PLOT_LABELS.get(n, n) for n in names]
+    colors = [RETRAIN_COLOR if scenarios[n]["retrain_recommended"]
+              else HEALTHY_COLOR for n in names]
+    x = np.arange(len(names))
+
+    fig, axes = plt.subplots(1, 3, figsize=(13.5, 4.8))
+
+    # --- Panel 1: data-drift share ---------------------------------------- #
+    drift_vals = [scenarios[n]["drift_share"] * 100 for n in names]
+    axes[0].bar(x, drift_vals, color=colors)
+    axes[0].axhline(thr["drift_share_alert"] * 100, ls="--", color="grey",
+                    label=f"alert ≥ {thr['drift_share_alert']:.0%}")
+    axes[0].set(ylabel="% of features drifted", title="Data drift")
+    axes[0].legend(loc="upper left", fontsize=9)
+
+    # --- Panel 2: AUROC (higher is better) -------------------------------- #
+    auroc_vals = [scenarios[n]["auroc"] for n in names]
+    axes[1].bar(x, auroc_vals, color=colors)
+    axes[1].axhline(ref["auroc"], ls="--", color="grey",
+                    label=f"reference = {ref['auroc']:.3f}")
+    axes[1].axhline(ref["auroc"] - thr["auroc_drop_alert"], ls=":", color="grey",
+                    label=f"alert ≤ {ref['auroc'] - thr['auroc_drop_alert']:.3f}")
+    # Zoom to the band where the bars and threshold lines actually live.
+    lo = min(auroc_vals + [ref["auroc"] - thr["auroc_drop_alert"]]) - 0.02
+    axes[1].set_ylim(max(0.0, lo), max(auroc_vals + [ref["auroc"]]) + 0.01)
+    axes[1].set(ylabel="AUROC", title="Discrimination")
+    axes[1].legend(loc="lower left", fontsize=9)
+
+    # --- Panel 3: Brier (lower is better) --------------------------------- #
+    brier_vals = [scenarios[n]["brier"] for n in names]
+    axes[2].bar(x, brier_vals, color=colors)
+    axes[2].axhline(ref["brier"], ls="--", color="grey",
+                    label=f"reference = {ref['brier']:.4f}")
+    axes[2].axhline(ref["brier"] + thr["brier_rise_alert"], ls=":", color="grey",
+                    label=f"alert ≥ {ref['brier'] + thr['brier_rise_alert']:.4f}")
+    axes[2].set(ylabel="Brier (lower = better)", title="Calibration")
+    axes[2].legend(loc="upper left", fontsize=9)
+
+    for ax in axes:
+        ax.set_xticks(x)
+        ax.set_xticklabels(labels, fontsize=9)
+
+    # A shared legend for the verdict colour-coding.
+    verdict_handles = [
+        plt.Rectangle((0, 0), 1, 1, color=HEALTHY_COLOR),
+        plt.Rectangle((0, 0), 1, 1, color=RETRAIN_COLOR),
+    ]
+    fig.legend(verdict_handles, ["healthy", "RETRAIN recommended"],
+               loc="upper right", ncol=2, fontsize=9, frameon=False)
+    fig.suptitle("Drift monitoring: which simulated shifts trip a retraining alert",
+                 fontsize=13, y=1.02)
+    fig.tight_layout()
+    fig.savefig(out_path, dpi=130, bbox_inches="tight")
+    plt.close(fig)
+
+
+# --------------------------------------------------------------------------- #
 # Main
 # --------------------------------------------------------------------------- #
 
@@ -266,6 +357,11 @@ def main() -> None:
     )
     print(f"[write] {args.reports_dir / 'drift_summary.json'}")
     print(f"[write] Evidently HTML reports -> {args.reports_dir}")
+
+    figures_dir = args.reports_dir / "figures"
+    figures_dir.mkdir(parents=True, exist_ok=True)
+    plot_drift_panel(summary, figures_dir / "drift_panel.png")
+    print(f"[write] figure -> {figures_dir / 'drift_panel.png'}")
     print("[done] Phase 6 complete.")
 
 

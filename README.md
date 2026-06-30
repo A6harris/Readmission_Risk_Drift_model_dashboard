@@ -96,7 +96,7 @@ _Held-out test set (n = 13,998), 30-day readmission prevalence ≈ 9.0%._
 | **XGBoost (selected)** | **0.658** | **0.189** | **0.0785** |
 
 The AUROC is modest **by design** — 30-day readmission is genuinely hard to
-predict from administrative data, and a suspiciously high number would be the
+predict from administrative data, and a suspiciously high number would be theng
 red flag. What matters is that the model is **calibrated** (Brier 0.0785 beats
 the no-skill baseline of 0.0817) and adds **net benefit** across a realistic
 outreach threshold band (~4%–58%).
@@ -123,7 +123,20 @@ harmful drift: a benign **age shift** is detected but not flagged; a **pipeline
 break** trips the AUROC rule; a **prevalence surge** (COVID-like) breaks
 calibration with *zero* feature drift — a label shift invisible to feature-drift
 monitoring but caught by performance tracking, which trips **RETRAIN
-RECOMMENDED**. See the full model card in [`models/model_card.md`](models/model_card.md).
+RECOMMENDED**.
+
+![Drift monitoring panel](docs/figures/drift_panel.png)
+
+_Bars are coloured by each scenario's overall retraining verdict (green =
+healthy, red = retrain). The dashed lines mark the validated reference; the
+dotted lines mark the alert thresholds. Read it left to right: `pipeline_break`
+fails on **discrimination** (AUROC drops below tolerance), while
+`prevalence_surge` fails on **calibration** (Brier blows past tolerance) despite
+**no feature drift at all** — the failure that pure data-drift monitoring would
+miss. The live, interactive version (with the full Evidently report per scenario)
+is the **🚨 Monitoring** tab of the dashboard._
+
+See the full model card in [`models/model_card.md`](models/model_card.md).
 
 ## Data
 
