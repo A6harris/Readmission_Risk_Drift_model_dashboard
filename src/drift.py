@@ -233,49 +233,76 @@ def plot_drift_panel(summary: dict, out_path: Path) -> None:
 
     Left: data-drift share vs. the alert line. Middle: AUROC vs. the validated
     reference and its drop tolerance. Right: Brier vs. reference and its rise
-    tolerance. Bars are coloured by the retrain verdict, so the eye lands first
-    on the scenarios that trip ``RETRAIN RECOMMENDED`` — making the central
-    claim ("we distinguish benign from harmful drift") legible at a glance.
+    tolerance. **Each bar is coloured per panel**: red only in the panel where
+    *that* metric breached its threshold, green otherwise. So a red bar always
+    means "this is the thing that's broken, right here" — no cross-referencing.
+    The breaching bar is annotated with the rule it tripped. This makes the
+    central claim ("we distinguish benign from harmful drift, and we can say
+    *why*") legible without mentally joining the three panels.
     """
     ref = summary["reference"]
     thr = summary["thresholds"]
     scenarios = summary["scenarios"]
     names = [n for n in PLOT_ORDER if n in scenarios]
     labels = [PLOT_LABELS.get(n, n) for n in names]
-    colors = [RETRAIN_COLOR if scenarios[n]["retrain_recommended"]
-              else HEALTHY_COLOR for n in names]
     x = np.arange(len(names))
+
+    def bar_color(breached: bool) -> str:
+        return RETRAIN_COLOR if breached else HEALTHY_COLOR
+
+    def annotate(ax, xi, top, text):
+        """Tag a breaching bar with the rule it tripped, just above the bar."""
+        ax.annotate(text, (xi, top), textcoords="offset points", xytext=(0, 4),
+                    ha="center", va="bottom", fontsize=8, fontweight="bold",
+                    color=RETRAIN_COLOR)
 
     fig, axes = plt.subplots(1, 3, figsize=(13.5, 4.8))
 
-    # --- Panel 1: data-drift share ---------------------------------------- #
+    # --- Panel 1: data-drift share (breaches when >= drift_share_alert) ---- #
     drift_vals = [scenarios[n]["drift_share"] * 100 for n in names]
-    axes[0].bar(x, drift_vals, color=colors)
-    axes[0].axhline(thr["drift_share_alert"] * 100, ls="--", color="grey",
+    drift_breach = [scenarios[n]["drift_share"] >= thr["drift_share_alert"]
+                    for n in names]
+    axes[0].bar(x, drift_vals, color=[bar_color(b) for b in drift_breach])
+    axes[0].axhline(thr["drift_share_alert"] * 100, ls=":", color="grey",
                     label=f"alert ≥ {thr['drift_share_alert']:.0%}")
+    for xi, v, b in zip(x, drift_vals, drift_breach):
+        if b:
+            annotate(axes[0], xi, v, "≥ alert")
+    axes[0].set_ylim(0, max(drift_vals + [thr["drift_share_alert"] * 100]) * 1.25)
     axes[0].set(ylabel="% of features drifted", title="Data drift")
-    axes[0].legend(loc="upper left", fontsize=9)
+    axes[0].legend(loc="upper right", fontsize=9)
 
-    # --- Panel 2: AUROC (higher is better) -------------------------------- #
+    # --- Panel 2: AUROC, higher is better (breaches when drop >= alert) ---- #
     auroc_vals = [scenarios[n]["auroc"] for n in names]
-    axes[1].bar(x, auroc_vals, color=colors)
+    auroc_drop = [ref["auroc"] - scenarios[n]["auroc"] for n in names]
+    auroc_breach = [d >= thr["auroc_drop_alert"] for d in auroc_drop]
+    axes[1].bar(x, auroc_vals, color=[bar_color(b) for b in auroc_breach])
     axes[1].axhline(ref["auroc"], ls="--", color="grey",
                     label=f"reference = {ref['auroc']:.3f}")
     axes[1].axhline(ref["auroc"] - thr["auroc_drop_alert"], ls=":", color="grey",
                     label=f"alert ≤ {ref['auroc'] - thr['auroc_drop_alert']:.3f}")
+    for xi, v, d, b in zip(x, auroc_vals, auroc_drop, auroc_breach):
+        if b:
+            annotate(axes[1], xi, v, f"−{d:.3f}")
     # Zoom to the band where the bars and threshold lines actually live.
     lo = min(auroc_vals + [ref["auroc"] - thr["auroc_drop_alert"]]) - 0.02
-    axes[1].set_ylim(max(0.0, lo), max(auroc_vals + [ref["auroc"]]) + 0.01)
+    axes[1].set_ylim(max(0.0, lo), max(auroc_vals + [ref["auroc"]]) + 0.015)
     axes[1].set(ylabel="AUROC", title="Discrimination")
     axes[1].legend(loc="lower left", fontsize=9)
 
-    # --- Panel 3: Brier (lower is better) --------------------------------- #
+    # --- Panel 3: Brier, lower is better (breaches when rise >= alert) ----- #
     brier_vals = [scenarios[n]["brier"] for n in names]
-    axes[2].bar(x, brier_vals, color=colors)
+    brier_rise = [scenarios[n]["brier"] - ref["brier"] for n in names]
+    brier_breach = [r >= thr["brier_rise_alert"] for r in brier_rise]
+    axes[2].bar(x, brier_vals, color=[bar_color(b) for b in brier_breach])
     axes[2].axhline(ref["brier"], ls="--", color="grey",
                     label=f"reference = {ref['brier']:.4f}")
     axes[2].axhline(ref["brier"] + thr["brier_rise_alert"], ls=":", color="grey",
                     label=f"alert ≥ {ref['brier'] + thr['brier_rise_alert']:.4f}")
+    for xi, v, r, b in zip(x, brier_vals, brier_rise, brier_breach):
+        if b:
+            annotate(axes[2], xi, v, f"+{r:.3f}")
+    axes[2].set_ylim(0, max(brier_vals) * 1.18)
     axes[2].set(ylabel="Brier (lower = better)", title="Calibration")
     axes[2].legend(loc="upper left", fontsize=9)
 
@@ -283,15 +310,17 @@ def plot_drift_panel(summary: dict, out_path: Path) -> None:
         ax.set_xticks(x)
         ax.set_xticklabels(labels, fontsize=9)
 
-    # A shared legend for the verdict colour-coding.
-    verdict_handles = [
+    # Shared legend: red now means "this metric breached its threshold".
+    legend_handles = [
         plt.Rectangle((0, 0), 1, 1, color=HEALTHY_COLOR),
         plt.Rectangle((0, 0), 1, 1, color=RETRAIN_COLOR),
     ]
-    fig.legend(verdict_handles, ["healthy", "RETRAIN recommended"],
-               loc="upper right", ncol=2, fontsize=9, frameon=False)
-    fig.suptitle("Drift monitoring: which simulated shifts trip a retraining alert",
-                 fontsize=13, y=1.02)
+    fig.suptitle("Drift monitoring: each panel flags the scenarios that breach "
+                 "its rule", fontsize=13, y=1.10)
+    fig.legend(legend_handles,
+               ["within policy", "breached threshold → RETRAIN"],
+               loc="center", bbox_to_anchor=(0.5, 1.02), ncol=2, fontsize=9,
+               frameon=False)
     fig.tight_layout()
     fig.savefig(out_path, dpi=130, bbox_inches="tight")
     plt.close(fig)

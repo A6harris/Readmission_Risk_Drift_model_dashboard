@@ -127,14 +127,16 @@ RECOMMENDED**.
 
 ![Drift monitoring panel](docs/figures/drift_panel.png)
 
-_Bars are coloured by each scenario's overall retraining verdict (green =
-healthy, red = retrain). The dashed lines mark the validated reference; the
-dotted lines mark the alert thresholds. Read it left to right: `pipeline_break`
-fails on **discrimination** (AUROC drops below tolerance), while
-`prevalence_surge` fails on **calibration** (Brier blows past tolerance) despite
-**no feature drift at all** — the failure that pure data-drift monitoring would
-miss. The live, interactive version (with the full Evidently report per scenario)
-is the **🚨 Monitoring** tab of the dashboard._
+_Each bar is coloured **per panel**: red only where that metric breached its
+threshold (annotated with by how much), green otherwise — so a red bar always
+means "this is what's broken, right here." `pipeline_break` is caught **only** by
+the AUROC rule: collapsing the model's top feature is a mere ~2% of columns, so
+it barely registers as data drift, yet it drops discrimination 0.043 below
+tolerance. `prevalence_surge` is caught **only** by calibration: Brier blows past
+tolerance with **zero feature drift at all**. Both are failures that pure
+data-drift monitoring would miss but performance tracking catches. The live,
+interactive version (with the full Evidently report per scenario) is the **🚨
+Monitoring** tab of the dashboard._
 
 See the full model card in [`models/model_card.md`](models/model_card.md).
 
