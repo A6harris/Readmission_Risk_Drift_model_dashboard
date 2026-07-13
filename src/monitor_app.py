@@ -6,8 +6,10 @@ earlier phases and presents them as three tabs:
 
 * **Model overview** — discrimination, calibration, net benefit, SHAP drivers.
 * **Fairness** — per-subgroup reliability across race / gender / age.
-* **Monitoring** — pick a drift scenario and watch performance decay; a clear
-  **RETRAIN RECOMMENDED** banner trips when thresholds are breached.
+* **Monitoring** — pick a drift scenario and watch it play out over a stream
+  of monitoring windows: metric timelines against alert thresholds, tiered
+  **OK → WARNING → RETRAIN** status with a sustained-breach rule, per-feature
+  drift attribution, and the retraining decision log.
 
 The app is a *reader* of artifacts, not a trainer: run the pipeline first
 (``data_prep`` → ``train`` → ``evaluate`` → ``fairness`` → ``explain`` →
@@ -213,6 +215,47 @@ with tab_fairness:
 # Tab 3 — Monitoring (the hero)
 # --------------------------------------------------------------------------- #
 
+# Status tiers share one vocabulary everywhere: colors are reserved for state
+# and always accompanied by the text label, never color alone.
+STATUS_COLOR = {"ok": "#27ae60", "warning": "#e67e22", "retrain": "#c0392b"}
+STATUS_BADGE = {"ok": "✅ OK", "warning": "⚠️ WARNING", "retrain": "🚨 RETRAIN"}
+
+
+def timeline_chart(windows_df: pd.DataFrame, metric: str, title: str,
+                   ref_value: float | None, alert_value: float,
+                   alert_label: str, y_format: str = ".3f"):
+    """One metric over the monitoring windows, with reference and alert lines
+    and status-colored markers (status is also spelled out in the hover)."""
+    import plotly.graph_objects as go
+
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(
+        x=windows_df["window"], y=windows_df[metric],
+        mode="lines+markers",
+        line=dict(color="#4a6fa5", width=2),
+        marker=dict(size=9,
+                    color=[STATUS_COLOR[s] for s in windows_df["status"]],
+                    line=dict(width=1, color="white")),
+        customdata=[STATUS_BADGE[s] for s in windows_df["status"]],
+        hovertemplate=("window %{x} · %{y:" + y_format + "}"
+                       "<br>%{customdata}<extra></extra>"),
+        showlegend=False,
+    ))
+    if ref_value is not None:
+        fig.add_hline(y=ref_value, line_dash="dash", line_color="grey",
+                      annotation_text="reference", annotation_font_size=11)
+    fig.add_hline(y=alert_value, line_dash="dot",
+                  line_color=STATUS_COLOR["retrain"],
+                  annotation_text=alert_label, annotation_font_size=11)
+    fig.update_layout(
+        title=dict(text=title, font_size=14),
+        height=280, margin=dict(l=10, r=10, t=50, b=10),
+        xaxis=dict(title="monitoring window", dtick=1),
+        yaxis=dict(title=None),
+    )
+    return fig
+
+
 with tab_monitor:
     st.subheader("Post-deployment drift monitoring")
     if not need(drift, "python src/drift.py"):
@@ -221,10 +264,11 @@ with tab_monitor:
         scenarios = drift["scenarios"]
 
         st.caption(
-            "Pick a scenario representing incoming production data. The monitor "
-            "compares it against the validated **reference** window and trips a "
-            "retraining alert when data drift is widespread or performance "
-            "decays past policy thresholds."
+            "Each scenario plays out as a sequence of monitoring windows — "
+            "weekly batches of production scoring data — compared against the "
+            "validated **reference** window. Status escalates "
+            "**OK → WARNING → RETRAIN**; a retraining recommendation requires "
+            "the breach to be *sustained*, so one noisy week never trips it."
         )
 
         scenario_labels = {
@@ -234,22 +278,64 @@ with tab_monitor:
             "prevalence_surge": "Prevalence surge — COVID-like readmission spike",
         }
         choice = st.selectbox(
-            "Scenario / monitoring window",
+            "Scenario / monitoring stream",
             options=list(scenarios.keys()),
             format_func=lambda k: scenario_labels.get(k, k),
         )
         s = scenarios[choice]
+        status = s.get("status",
+                       "retrain" if s["retrain_recommended"] else "ok")
 
-        # The hero banner.
-        if s["retrain_recommended"]:
-            st.error("### 🚨 RETRAIN RECOMMENDED\n\n" +
-                     "\n".join(f"- {r}" for r in s["reasons"]), icon="🚨")
+        # The hero banner — three tiers, with the sustained-breach context.
+        sustained = s.get("consecutive_retrain_windows", 0)
+        need_windows = thr.get("sustained_windows", 1)
+        if status == "retrain":
+            st.error(
+                "### 🚨 RETRAIN RECOMMENDED\n\n"
+                + "\n".join(f"- {r}" for r in s["reasons"])
+                + f"\n- breach sustained for {sustained} consecutive windows "
+                  f"(policy requires ≥ {need_windows})",
+                icon="🚨")
+        elif status == "warning":
+            st.warning(
+                "### ⚠️ WARNING — under observation\n\n"
+                + "\n".join(f"- {r}" for r in s["reasons"])
+                + "\n- not yet a sustained policy breach; no retraining "
+                  "indicated",
+                icon="⚠️")
         else:
             st.success("### ✅ Model healthy — no retraining indicated\n\n"
-                       "Drift and performance are within policy thresholds.",
-                       icon="✅")
+                       "Drift and performance within policy across all "
+                       "monitoring windows.", icon="✅")
 
-        st.markdown("#### Metrics vs. validated reference")
+        # Metrics over time — the actual monitoring view.
+        windows = s.get("windows")
+        if windows:
+            st.markdown("#### Metrics over monitoring windows")
+            wdf = pd.DataFrame(windows)
+            t1, t2, t3 = st.columns(3)
+            t1.plotly_chart(timeline_chart(
+                wdf, "drift_share", "Data drift (share of features)",
+                None, thr["drift_share_alert"],
+                f"alert ≥ {thr['drift_share_alert']:.0%}", y_format=".2f"),
+                width="stretch")
+            t2.plotly_chart(timeline_chart(
+                wdf, "auroc", "Discrimination (AUROC)",
+                ref["auroc"], ref["auroc"] - thr["auroc_drop_alert"],
+                f"alert ≤ {ref['auroc'] - thr['auroc_drop_alert']:.3f}"),
+                width="stretch")
+            t3.plotly_chart(timeline_chart(
+                wdf, "brier", "Calibration (Brier, lower = better)",
+                ref["brier"], ref["brier"] + thr["brier_rise_alert"],
+                f"alert ≥ {ref['brier'] + thr['brier_rise_alert']:.4f}",
+                y_format=".4f"), width="stretch")
+            with st.expander("Window-by-window detail"):
+                detail = wdf[["window", "severity", "drift_share", "auroc",
+                              "brier", "prevalence", "alert_rate", "status"]]
+                detail = detail.assign(status=detail["status"].map(STATUS_BADGE))
+                st.dataframe(detail, hide_index=True, width="stretch")
+
+        st.markdown("#### Latest window vs. validated reference")
         m1, m2, m3, m4, m5 = st.columns(5)
         m1.metric("AUROC", f"{s['auroc']:.3f}",
                   delta=f"{s['auroc'] - ref['auroc']:+.3f}")
@@ -264,14 +350,33 @@ with tab_monitor:
                   delta_color="off")
         m5.metric("Outreach alert rate", f"{s['alert_rate']:.1%}")
 
+        # Which features drifted — attribution, not just a share.
+        drifted = s.get("top_drifted_columns") or []
+        if drifted:
+            st.markdown("#### Which features drifted (latest window)")
+            st.caption(
+                "Per-column drift score from Evidently's per-feature stat "
+                "test — the first place to look when an alert fires. A "
+                "performance breach with *no* feature drift (see "
+                "`prevalence_surge`) is the signature of label shift."
+            )
+            st.dataframe(pd.DataFrame(drifted), hide_index=True,
+                         width="stretch")
+
         with st.expander("Alert policy (thresholds)"):
             st.write(
-                f"- **Data drift:** retrain if ≥ {thr['drift_share_alert']:.0%} "
-                f"of features drift.\n"
-                f"- **Discrimination:** retrain if AUROC falls ≥ "
+                f"- **Data drift:** ≥ {thr['drift_share_alert']:.0%} of "
+                f"features drifted.\n"
+                f"- **Discrimination:** AUROC falls ≥ "
                 f"{thr['auroc_drop_alert']} vs. reference.\n"
-                f"- **Calibration:** retrain if Brier rises ≥ "
-                f"{thr['brier_rise_alert']} vs. reference.\n\n"
+                f"- **Calibration:** Brier rises ≥ "
+                f"{thr['brier_rise_alert']} vs. reference.\n"
+                f"- **WARNING tier:** any metric ≥ "
+                f"{thr.get('warn_fraction', 0.5):.0%} of the way to its alert "
+                f"threshold.\n"
+                f"- **Sustained-breach rule:** RETRAIN only after ≥ "
+                f"{thr.get('sustained_windows', 1)} consecutive breaching "
+                f"windows — a single noisy window surfaces as WARNING.\n\n"
                 f"Reference window: n = {ref['n']:,}, AUROC = {ref['auroc']:.3f}, "
                 f"Brier = {ref['brier']:.4f}, prevalence = {ref['prevalence']:.3f}."
             )
@@ -280,8 +385,12 @@ with tab_monitor:
         st.markdown("#### All scenarios at a glance")
         rows = []
         for name, sc in scenarios.items():
+            sc_status = sc.get(
+                "status", "retrain" if sc["retrain_recommended"] else "ok")
             rows.append({
                 "scenario": name,
+                "status": STATUS_BADGE.get(sc_status, sc_status),
+                "first flagged window": sc.get("first_flagged_window"),
                 "drift_share": sc["drift_share"],
                 "AUROC": sc["auroc"],
                 "Brier": sc["brier"],
@@ -290,6 +399,26 @@ with tab_monitor:
             })
         st.dataframe(pd.DataFrame(rows), hide_index=True,
                      width="stretch")
+
+        # Close the loop: show the retrain-trigger's auditable decision log.
+        st.markdown("#### Retraining decision log")
+        log_path = MODELS_DIR / "retrain_log.jsonl"
+        if log_path.exists():
+            events = [json.loads(line) for line in
+                      log_path.read_text(encoding="utf-8").splitlines() if line]
+            log_df = pd.DataFrame(events)
+            st.dataframe(log_df.iloc[::-1], hide_index=True, width="stretch")
+            st.caption(
+                "Every decision `src/retrain_trigger.py` makes — acted on or "
+                "not — is appended here, so there is an audit trail of why the "
+                "model was (or wasn't) refreshed."
+            )
+        else:
+            st.info(
+                "No retraining decisions logged yet. Close the loop with "
+                "`python src/retrain_trigger.py` (add `--dry-run` to record "
+                "the decision without retraining)."
+            )
 
         # Embed the full Evidently report on demand (the files are large).
         html_path = REPORTS_DIR / s["html"]

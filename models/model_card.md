@@ -61,9 +61,9 @@ deployable clinical tool.
 | Metric | Value | Note |
 |---|---|---|
 | AUROC | **0.658** | Modest by design; 30-day readmission is hard from administrative data |
-| AUPRC | **0.189** | vs. a no-skill baseline of 0.090 (the prevalence) |
+| AUPRC | **0.187** | vs. a no-skill baseline of 0.090 (the prevalence) |
 | Brier score | **0.0785** | Beats the no-skill Brier of 0.0817 → genuinely calibrated |
-| Net benefit | Positive across ~**4%–58%** thresholds | Beats treat-all / treat-none in the actionable band |
+| Net benefit | Positive across ~**3%–51%** thresholds | Beats treat-all / treat-none in the actionable band |
 
 Baseline comparison (test): logistic regression AUROC 0.651 / AUPRC 0.173.
 The gradient-boosted model wins modestly. See `reports/evaluation.md`.
@@ -75,14 +75,14 @@ Audited by `race`, `gender`, and `age` at an outreach threshold of 0.10
 rate). Notable disparities among subgroups with n ≥ 100:
 
 - **Age** is where reliability varies most: recall (TPR) gap ≈ **0.35** (lowest
-  in `[40-50)`, highest in `[20-30)`), AUROC gap ≈ 0.19, and selection rate
+  in `[30-40)`, highest in `[20-30)`), AUROC gap ≈ 0.18, and selection rate
   climbs steeply with age — older patients are flagged far more often.
-- **Race**: recall gap ≈ 0.14 among reliable groups; several groups (Asian,
-  Other) are **too small (n < 100) to draw conclusions** — itself a key finding.
+- **Race**: recall gap ≈ 0.18 among reliable groups; the smallest groups (e.g.
+  Asian) are **too small (n < 100) to draw conclusions** — itself a key finding.
 - **Gender**: differences are modest (recall gap ≈ 0.07).
 
 **Weakest where:** small subgroups (insufficient data) and the working-age
-`[40-50)` band (lowest recall) — outreach there would under-serve real
+`[30-40)` band (lowest recall) — outreach there would under-serve real
 readmissions without a group-specific threshold or human review.
 
 ## 6. Key modeling decisions & limitations
@@ -104,18 +104,28 @@ readmissions without a group-specific threshold or human review.
 ## 7. Monitoring & maintenance
 
 Post-deployment drift is simulated and detected in `src/drift.py` /
-`reports/drift_summary.json`, surfaced in the Streamlit dashboard. Retraining is
-recommended when, vs. a validated reference window:
+`reports/drift_summary.json`, surfaced in the Streamlit dashboard. Each
+scenario is scored over a stream of monitoring windows in which the shift
+ramps up mid-stream. Per window, vs. a validated reference window, the alert
+policy is:
 
-- ≥ 30% of features drift (Evidently), **or**
-- AUROC falls ≥ 0.03, **or**
-- Brier rises ≥ 0.02.
+- **RETRAIN tier** — ≥ 30% of features drift (Evidently), **or** AUROC falls
+  ≥ 0.03, **or** Brier rises ≥ 0.02;
+- **WARNING tier** — any of those metrics ≥ 50% of the way to its threshold;
+- **Sustained-breach rule** — retraining is recommended only after ≥ 2
+  consecutive RETRAIN-tier windows, so a single noisy window cannot trigger a
+  retrain (it surfaces as WARNING instead).
 
-Demonstrated behavior: a **pipeline break** (a field collapsing upstream) trips
-the AUROC rule; a **prevalence surge** (COVID-like) trips the Brier rule with
-*zero* feature drift — showing that label shift is invisible to feature-drift
-monitoring and must be caught by performance tracking. A benign **age shift** is
-detected but correctly does **not** trigger retraining.
+Alerts are attributable: the dashboard lists per-feature drift scores for the
+latest window, and every decision by `src/retrain_trigger.py` is appended to
+an audit log (`models/retrain_log.jsonl`).
+
+Demonstrated behavior: a **pipeline break** (a field collapsing upstream)
+trips the AUROC rule once enough rows are affected; a **prevalence surge**
+(COVID-like) trips the Brier rule with essentially *zero* feature drift —
+showing that label shift is invisible to feature-drift monitoring and must be
+caught by performance tracking. A benign **age shift** is detected and held at
+WARNING but correctly never triggers retraining.
 
 ## 8. What would need to be true to deploy responsibly
 

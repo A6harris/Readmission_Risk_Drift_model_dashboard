@@ -26,6 +26,24 @@ def test_monitoring_scenarios_switch_cleanly():
     at = AppTest.from_file(APP, default_timeout=120).run()
     if not at.selectbox:
         pytest.skip("drift_summary.json absent; monitoring selectbox not rendered")
-    for scenario in ["baseline", "pipeline_break", "prevalence_surge"]:
+    for scenario in ["baseline", "age_shift", "pipeline_break",
+                     "prevalence_surge"]:
         at.selectbox[0].select(scenario).run()
         assert at.exception is None or len(at.exception) == 0
+
+
+def test_monitoring_banners_match_scenario_status():
+    """The tiered status banner is the dashboard's headline claim — check the
+    harmful scenarios trip RETRAIN and the benign shift surfaces as WARNING."""
+    at = AppTest.from_file(APP, default_timeout=120).run()
+    if not at.selectbox:
+        pytest.skip("drift_summary.json absent; monitoring selectbox not rendered")
+
+    at.selectbox[0].select("pipeline_break").run()
+    assert any("RETRAIN RECOMMENDED" in e.value for e in at.error)
+
+    at.selectbox[0].select("age_shift").run()
+    assert any("WARNING" in w.value for w in at.warning)
+
+    at.selectbox[0].select("baseline").run()
+    assert any("Model healthy" in s.value for s in at.success)

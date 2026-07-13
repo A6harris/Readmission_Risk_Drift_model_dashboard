@@ -8,46 +8,46 @@ Per-subgroup performance on the held-out test set, at an outreach operating thre
 
 | group | count | selection_rate | tpr | fpr | precision | auroc | mean_pred | observed_rate |
 |---|---|---|---|---|---|---|---|---|
-| AfricanAmerican | 2504 | 0.250 | 0.494 | 0.225 | 0.182 | 0.684 | 0.084 | 0.092 |
-| Asian | 96 | 0.177 | 0.556 | 0.138 | 0.294 | 0.808 | 0.077 | 0.094 |  ⚠️
-| Caucasian | 10522 | 0.311 | 0.496 | 0.292 | 0.145 | 0.647 | 0.092 | 0.091 |
-| Hispanic | 286 | 0.248 | 0.500 | 0.219 | 0.211 | 0.686 | 0.082 | 0.105 |
-| Missing | 361 | 0.216 | 0.409 | 0.204 | 0.115 | 0.685 | 0.077 | 0.061 |
-| Other | 229 | 0.188 | 0.545 | 0.170 | 0.140 | 0.809 | 0.073 | 0.048 |
+| AfricanAmerican | 2504 | 0.254 | 0.498 | 0.229 | 0.181 | 0.676 | 0.084 | 0.092 |
+| Asian | 96 | 0.146 | 0.333 | 0.126 | 0.214 | 0.797 | 0.075 | 0.094 |  ⚠️
+| Caucasian | 10522 | 0.307 | 0.504 | 0.288 | 0.149 | 0.648 | 0.091 | 0.091 |
+| Hispanic | 286 | 0.266 | 0.533 | 0.234 | 0.211 | 0.678 | 0.083 | 0.105 |
+| Missing | 361 | 0.213 | 0.364 | 0.204 | 0.104 | 0.695 | 0.077 | 0.061 |
+| Other | 229 | 0.183 | 0.545 | 0.165 | 0.143 | 0.818 | 0.074 | 0.048 |
 
-- **Recall (TPR) gap:** 0.136 — lowest for `Missing`, highest for `Other`. A lower TPR means the model *misses more* true readmissions in that group.
-- **Selection-rate gap:** 0.123 — groups are flagged for outreach at different rates.
-- **AUROC gap:** 0.163 across reliable groups.
+- **Recall (TPR) gap:** 0.182 — lowest for `Missing`, highest for `Other`. A lower TPR means the model *misses more* true readmissions in that group.
+- **Selection-rate gap:** 0.124 — groups are flagged for outreach at different rates.
+- **AUROC gap:** 0.170 across reliable groups.
 
 ## By gender
 
 | group | count | selection_rate | tpr | fpr | precision | auroc | mean_pred | observed_rate |
 |---|---|---|---|---|---|---|---|---|
-| Female | 7507 | 0.307 | 0.526 | 0.286 | 0.151 | 0.664 | 0.090 | 0.088 |
-| Male | 6491 | 0.277 | 0.460 | 0.258 | 0.152 | 0.651 | 0.089 | 0.091 |
+| Female | 7507 | 0.308 | 0.535 | 0.286 | 0.154 | 0.664 | 0.090 | 0.088 |
+| Male | 6491 | 0.272 | 0.462 | 0.253 | 0.155 | 0.651 | 0.088 | 0.091 |
 
-- **Recall (TPR) gap:** 0.065 — lowest for `Male`, highest for `Female`. A lower TPR means the model *misses more* true readmissions in that group.
-- **Selection-rate gap:** 0.030 — groups are flagged for outreach at different rates.
-- **AUROC gap:** 0.014 across reliable groups.
+- **Recall (TPR) gap:** 0.073 — lowest for `Male`, highest for `Female`. A lower TPR means the model *misses more* true readmissions in that group.
+- **Selection-rate gap:** 0.035 — groups are flagged for outreach at different rates.
+- **AUROC gap:** 0.013 across reliable groups.
 
 ## By age
 
 | group | count | selection_rate | tpr | fpr | precision | auroc | mean_pred | observed_rate |
 |---|---|---|---|---|---|---|---|---|
-| [0-10) | 29 | 0.034 | 0.000 | 0.034 | 0.000 | n/a | 0.039 | 0.000 |  ⚠️
-| [10-20) | 109 | 0.073 | 0.400 | 0.058 | 0.250 | 0.800 | 0.055 | 0.046 |
-| [20-30) | 204 | 0.172 | 0.667 | 0.132 | 0.286 | 0.768 | 0.076 | 0.074 |
-| [30-40) | 537 | 0.127 | 0.343 | 0.112 | 0.176 | 0.709 | 0.070 | 0.065 |
-| [40-50) | 1352 | 0.167 | 0.319 | 0.156 | 0.133 | 0.620 | 0.073 | 0.070 |
-| [50-60) | 2466 | 0.144 | 0.344 | 0.126 | 0.189 | 0.667 | 0.069 | 0.079 |
-| [60-70) | 3125 | 0.279 | 0.401 | 0.267 | 0.126 | 0.624 | 0.089 | 0.088 |
-| [70-80) | 3606 | 0.385 | 0.611 | 0.358 | 0.166 | 0.663 | 0.102 | 0.105 |
-| [80-90) | 2239 | 0.466 | 0.645 | 0.446 | 0.141 | 0.645 | 0.109 | 0.102 |
-| [90-100) | 331 | 0.326 | 0.394 | 0.319 | 0.120 | 0.607 | 0.098 | 0.100 |
+| [0-10) | 29 | 0.034 | 0.000 | 0.034 | 0.000 | n/a | 0.037 | 0.000 |  ⚠️
+| [10-20) | 109 | 0.092 | 0.400 | 0.077 | 0.200 | 0.790 | 0.055 | 0.046 |
+| [20-30) | 204 | 0.157 | 0.667 | 0.116 | 0.312 | 0.780 | 0.074 | 0.074 |
+| [30-40) | 537 | 0.130 | 0.314 | 0.118 | 0.157 | 0.708 | 0.068 | 0.065 |
+| [40-50) | 1352 | 0.166 | 0.319 | 0.154 | 0.134 | 0.616 | 0.072 | 0.070 |
+| [50-60) | 2466 | 0.142 | 0.354 | 0.124 | 0.197 | 0.664 | 0.069 | 0.079 |
+| [60-70) | 3125 | 0.282 | 0.416 | 0.269 | 0.130 | 0.623 | 0.090 | 0.088 |
+| [70-80) | 3606 | 0.376 | 0.611 | 0.349 | 0.170 | 0.662 | 0.101 | 0.105 |
+| [80-90) | 2239 | 0.464 | 0.632 | 0.445 | 0.139 | 0.644 | 0.109 | 0.102 |
+| [90-100) | 331 | 0.350 | 0.545 | 0.329 | 0.155 | 0.661 | 0.098 | 0.100 |
 
-- **Recall (TPR) gap:** 0.348 — lowest for `[40-50)`, highest for `[20-30)`. A lower TPR means the model *misses more* true readmissions in that group.
-- **Selection-rate gap:** 0.392 — groups are flagged for outreach at different rates.
-- **AUROC gap:** 0.193 across reliable groups.
+- **Recall (TPR) gap:** 0.352 — lowest for `[30-40)`, highest for `[20-30)`. A lower TPR means the model *misses more* true readmissions in that group.
+- **Selection-rate gap:** 0.372 — groups are flagged for outreach at different rates.
+- **AUROC gap:** 0.175 across reliable groups.
 
 ## Where this model is least reliable
 
