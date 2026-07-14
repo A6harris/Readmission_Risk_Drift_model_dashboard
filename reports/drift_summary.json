@@ -2,11 +2,11 @@
   "reference": {
     "n": 6999,
     "prevalence": 0.08572653236176597,
-    "auroc": 0.653862843152576,
-    "auprc": 0.17256998008431595,
-    "brier": 0.0757678970694542,
-    "alert_rate": 0.29232747535362197,
-    "mean_pred": 0.08880097419023514
+    "auroc": 0.6540221128301298,
+    "auprc": 0.17388916416766448,
+    "brier": 0.07575859575810179,
+    "alert_rate": 0.2976139448492642,
+    "mean_pred": 0.08880144357681274
   },
   "thresholds": {
     "drift_share_alert": 0.3,
@@ -22,13 +22,13 @@
       "drift_share": 0.0,
       "n": 6999,
       "prevalence": 0.09387055293613374,
-      "auroc": 0.6610576634617277,
-      "auprc": 0.20339699552466656,
-      "brier": 0.08123856037855148,
-      "alert_rate": 0.29032718959851406,
-      "mean_pred": 0.08955951780080795,
-      "auroc_drop": -0.007194820309151639,
-      "brier_rise": 0.00547066330909729,
+      "auroc": 0.6621324964108235,
+      "auprc": 0.20325123636082384,
+      "brier": 0.08125109319026413,
+      "alert_rate": 0.29647092441777395,
+      "mean_pred": 0.08958574384450912,
+      "auroc_drop": -0.008110383580693714,
+      "brier_rise": 0.0054924974321623465,
       "status": "ok",
       "retrain_recommended": false,
       "reasons": [],
@@ -41,17 +41,17 @@
           "drift_share": 0.0,
           "n": 6999,
           "prevalence": 0.09487069581368766,
-          "auroc": 0.6794472285352935,
-          "auprc": 0.21792654636769623,
-          "brier": 0.08138258755207062,
-          "alert_rate": 0.29461351621660237,
-          "mean_pred": 0.09006030112504959,
+          "auroc": 0.6764570515685473,
+          "auprc": 0.21692302896290871,
+          "brier": 0.08145333467013581,
+          "alert_rate": 0.2987569652807544,
+          "mean_pred": 0.09025197476148605,
           "status": "ok",
           "warnings": [],
           "retrain_recommended": false,
           "reasons": [],
-          "auroc_drop": -0.025584385382717456,
-          "brier_rise": 0.0056146904826164246
+          "auroc_drop": -0.02243493873841751,
+          "brier_rise": 0.0056947389120340225
         },
         {
           "window": 2,
@@ -59,17 +59,17 @@
           "drift_share": 0.0,
           "n": 6999,
           "prevalence": 0.08901271610230033,
-          "auroc": 0.6490463334615563,
-          "auprc": 0.20771640201498848,
-          "brier": 0.07730467617511749,
-          "alert_rate": 0.2803257608229747,
-          "mean_pred": 0.08818969875574112,
+          "auroc": 0.6545034449007212,
+          "auprc": 0.20690242022314886,
+          "brier": 0.07727503455846363,
+          "alert_rate": 0.2817545363623375,
+          "mean_pred": 0.08820930868387222,
           "status": "ok",
           "warnings": [],
           "retrain_recommended": false,
           "reasons": [],
-          "auroc_drop": 0.004816509691019766,
-          "brier_rise": 0.0015367791056632996
+          "auroc_drop": -0.0004813320705914226,
+          "brier_rise": 0.0015164388003618412
         },
         {
           "window": 3,
@@ -77,17 +77,17 @@
           "drift_share": 0.0,
           "n": 6999,
           "prevalence": 0.09344192027432491,
-          "auroc": 0.6622127755968604,
-          "auprc": 0.2068738449877284,
-          "brier": 0.08084312826395035,
-          "alert_rate": 0.2821831690241463,
-          "mean_pred": 0.08877333998680115,
+          "auroc": 0.6651932822926381,
+          "auprc": 0.20278258436669572,
+          "brier": 0.08096895071815302,
+          "alert_rate": 0.2948992713244749,
+          "mean_pred": 0.0889359638094902,
           "status": "ok",
           "warnings": [],
           "retrain_recommended": false,
           "reasons": [],
-          "auroc_drop": -0.008349932444284391,
-          "brier_rise": 0.005075231194496155
+          "auroc_drop": -0.01117116946250829,
+          "brier_rise": 0.005210354960051233
         },
         {
           "window": 4,
@@ -95,17 +95,17 @@
           "drift_share": 0.0,
           "n": 6999,
           "prevalence": 0.0848692670381483,
-          "auroc": 0.6769190736403851,
-          "auprc": 0.19902626357474812,
-          "brier": 0.07390185445547104,
-          "alert_rate": 0.29947135305043576,
-          "mean_pred": 0.09000884741544724,
+          "auroc": 0.676500366664301,
+          "auprc": 0.19612093505886724,
+          "brier": 0.07404391159761392,
+          "alert_rate": 0.300614373481926,
+          "mean_pred": 0.09017790108919144,
           "status": "ok",
           "warnings": [],
           "retrain_recommended": false,
           "reasons": [],
-          "auroc_drop": -0.023056230487809026,
-          "brier_rise": -0.0018660426139831543
+          "auroc_drop": -0.022478253834171236,
+          "brier_rise": -0.001714684160487867
         },
         {
           "window": 5,
@@ -113,17 +113,17 @@
           "drift_share": 0.0,
           "n": 6999,
           "prevalence": 0.09729961423060438,
-          "auroc": 0.649785313759861,
-          "auprc": 0.19902525985807157,
-          "brier": 0.08443041145801544,
-          "alert_rate": 0.2968995570795828,
-          "mean_pred": 0.09005395323038101,
+          "auroc": 0.6513478725911422,
+          "auprc": 0.1969182476022678,
+          "brier": 0.08449382311163887,
+          "alert_rate": 0.30132876125160735,
+          "mean_pred": 0.08993163704872131,
           "status": "ok",
           "warnings": [],
           "retrain_recommended": false,
           "reasons": [],
-          "auroc_drop": 0.004077529392714996,
-          "brier_rise": 0.008662514388561249
+          "auroc_drop": 0.0026742402389875464,
+          "brier_rise": 0.008735227353537087
         },
         {
           "window": 6,
@@ -131,17 +131,17 @@
           "drift_share": 0.0,
           "n": 6999,
           "prevalence": 0.0982997571081583,
-          "auroc": 0.6599449834729321,
-          "auprc": 0.2080132198449252,
-          "brier": 0.08480186015367508,
-          "alert_rate": 0.29775682240320045,
-          "mean_pred": 0.09040449559688568,
+          "auroc": 0.6605624454164563,
+          "auprc": 0.2147567463733701,
+          "brier": 0.08455895319816543,
+          "alert_rate": 0.30390055722246034,
+          "mean_pred": 0.09059739112854004,
           "status": "ok",
           "warnings": [],
           "retrain_recommended": false,
           "reasons": [],
-          "auroc_drop": -0.006082140320356033,
-          "brier_rise": 0.009033963084220886
+          "auroc_drop": -0.006540332586326469,
+          "brier_rise": 0.008800357440063647
         },
         {
           "window": 7,
@@ -149,17 +149,17 @@
           "drift_share": 0.0,
           "n": 6999,
           "prevalence": 0.09458494070581512,
-          "auroc": 0.6560158127565199,
-          "auprc": 0.20986525584754034,
-          "brier": 0.08182921260595322,
-          "alert_rate": 0.29232747535362197,
-          "mean_pred": 0.08904894441366196,
+          "auroc": 0.6540274186943129,
+          "auprc": 0.20721412063826228,
+          "brier": 0.08197741959370401,
+          "alert_rate": 0.29118445492213174,
+          "mean_pred": 0.08907043188810349,
           "status": "ok",
           "warnings": [],
           "retrain_recommended": false,
           "reasons": [],
-          "auroc_drop": -0.002152969603943844,
-          "brier_rise": 0.0060613155364990234
+          "auroc_drop": -5.305864183124953e-06,
+          "brier_rise": 0.006218823835602225
         },
         {
           "window": 8,
@@ -167,73 +167,73 @@
           "drift_share": 0.0,
           "n": 6999,
           "prevalence": 0.09387055293613374,
-          "auroc": 0.6610576634617277,
-          "auprc": 0.20339699552466656,
-          "brier": 0.08123856037855148,
-          "alert_rate": 0.29032718959851406,
-          "mean_pred": 0.08955951780080795,
+          "auroc": 0.6621324964108235,
+          "auprc": 0.20325123636082384,
+          "brier": 0.08125109319026413,
+          "alert_rate": 0.29647092441777395,
+          "mean_pred": 0.08958574384450912,
           "status": "ok",
           "warnings": [],
           "retrain_recommended": false,
           "reasons": [],
-          "auroc_drop": -0.007194820309151639,
-          "brier_rise": 0.00547066330909729
+          "auroc_drop": -0.008110383580693714,
+          "brier_rise": 0.0054924974321623465
         }
       ],
       "top_drifted_columns": [
         {
           "column": "medical_specialty",
           "method": "Jensen-Shannon distance",
-          "score": 0.0469979288273432,
+          "score": 0.046997928827343306,
           "threshold": 0.1,
           "detected": false
         },
         {
           "column": "admission_source_id",
           "method": "Jensen-Shannon distance",
-          "score": 0.027873373703181194,
+          "score": 0.027873373703182013,
           "threshold": 0.1,
           "detected": false
         },
         {
           "column": "diag_1_group",
           "method": "Jensen-Shannon distance",
-          "score": 0.025654993873992893,
+          "score": 0.02565499387399254,
           "threshold": 0.1,
           "detected": false
         },
         {
           "column": "discharge_disposition_id",
           "method": "Jensen-Shannon distance",
-          "score": 0.023954255692452554,
+          "score": 0.023954255692451902,
           "threshold": 0.1,
           "detected": false
         },
         {
           "column": "age",
           "method": "Jensen-Shannon distance",
-          "score": 0.017246285759310497,
+          "score": 0.01724628575931012,
           "threshold": 0.1,
           "detected": false
         },
         {
           "column": "diag_2_group",
           "method": "Jensen-Shannon distance",
-          "score": 0.016515025282541358,
+          "score": 0.01651502528254289,
           "threshold": 0.1,
           "detected": false
         },
         {
           "column": "max_glu_serum",
           "method": "Jensen-Shannon distance",
-          "score": 0.016408981641675865,
+          "score": 0.016408981641675945,
           "threshold": 0.1,
           "detected": false
         },
         {
           "column": "metformin",
           "method": "Jensen-Shannon distance",
-          "score": 0.015664031933400737,
+          "score": 0.015664031933401913,
           "threshold": 0.1,
           "detected": false
         }
@@ -244,19 +244,19 @@
       "drift_share": 0.06976744186046512,
       "n": 6999,
       "prevalence": 0.09901414487783969,
-      "auroc": 0.6490632389776063,
-      "auprc": 0.19958662868077234,
-      "brier": 0.08578620105981827,
-      "alert_rate": 0.3653379054150593,
-      "mean_pred": 0.0982062965631485,
-      "auroc_drop": 0.004799604174969718,
-      "brier_rise": 0.010018303990364075,
+      "auroc": 0.6509760282357808,
+      "auprc": 0.1975773384154848,
+      "brier": 0.08587518771715372,
+      "alert_rate": 0.37119588512644663,
+      "mean_pred": 0.09827668219804764,
+      "auroc_drop": 0.0030460845943489634,
+      "brier_rise": 0.01011659195905193,
       "status": "warning",
       "retrain_recommended": false,
       "reasons": [
         "Brier rise at 0.010 \u2014 past 50% of the alert threshold (0.02)"
       ],
-      "first_flagged_window": 4,
+      "first_flagged_window": 1,
       "consecutive_retrain_windows": 0,
       "windows": [
         {
@@ -265,17 +265,19 @@
           "drift_share": 0.0,
           "n": 6999,
           "prevalence": 0.10001428775539363,
-          "auroc": 0.6689821513618943,
-          "auprc": 0.21575214043002575,
-          "brier": 0.08573176711797714,
-          "alert_rate": 0.2861837405343621,
-          "mean_pred": 0.09015952050685883,
-          "status": "ok",
-          "warnings": [],
+          "auroc": 0.6659224820266255,
+          "auprc": 0.2123704154413617,
+          "brier": 0.08593158851676778,
+          "alert_rate": 0.2918988426918131,
+          "mean_pred": 0.08973948657512665,
+          "status": "warning",
+          "warnings": [
+            "Brier rise at 0.010 \u2014 past 50% of the alert threshold (0.02)"
+          ],
           "retrain_recommended": false,
           "reasons": [],
-          "auroc_drop": -0.015119308209318283,
-          "brier_rise": 0.00996387004852295
+          "auroc_drop": -0.01190036919649573,
+          "brier_rise": 0.010172992758665997
         },
         {
           "window": 2,
@@ -283,17 +285,17 @@
           "drift_share": 0.0,
           "n": 6999,
           "prevalence": 0.09515645092156022,
-          "auroc": 0.646677231471168,
-          "auprc": 0.1907166933509303,
-          "brier": 0.08301903307437897,
-          "alert_rate": 0.28732676096585225,
-          "mean_pred": 0.08816877752542496,
+          "auroc": 0.6495033640936057,
+          "auprc": 0.19236357003354088,
+          "brier": 0.08293204704360056,
+          "alert_rate": 0.2888984140591513,
+          "mean_pred": 0.08819527179002762,
           "status": "ok",
           "warnings": [],
           "retrain_recommended": false,
           "reasons": [],
-          "auroc_drop": 0.007185611681408077,
-          "brier_rise": 0.007251136004924774
+          "auroc_drop": 0.004518748736524136,
+          "brier_rise": 0.007173451285498775
         },
         {
           "window": 3,
@@ -301,17 +303,17 @@
           "drift_share": 0.023255813953488372,
           "n": 6999,
           "prevalence": 0.0904414916416631,
-          "auroc": 0.6858813532991965,
-          "auprc": 0.22468071463406683,
-          "brier": 0.07749460637569427,
-          "alert_rate": 0.31247321045863696,
-          "mean_pred": 0.09210240095853806,
+          "auroc": 0.6917403822340147,
+          "auprc": 0.22620666717056181,
+          "brier": 0.0774299921340695,
+          "alert_rate": 0.3150450064294899,
+          "mean_pred": 0.0920369029045105,
           "status": "ok",
           "warnings": [],
           "retrain_recommended": false,
           "reasons": [],
-          "auroc_drop": -0.032018510146620494,
-          "brier_rise": 0.0017267093062400818
+          "auroc_drop": -0.037718269403884896,
+          "brier_rise": 0.001671396375967707
         },
         {
           "window": 4,
@@ -319,19 +321,19 @@
           "drift_share": 0.046511627906976744,
           "n": 6999,
           "prevalence": 0.10687241034433491,
-          "auroc": 0.6713263845699127,
-          "auprc": 0.25083402824262097,
-          "brier": 0.09029402583837509,
-          "alert_rate": 0.33090441491641664,
-          "mean_pred": 0.09345921874046326,
+          "auroc": 0.6706266034867576,
+          "auprc": 0.2448668305752731,
+          "brier": 0.09046459385603112,
+          "alert_rate": 0.34047721103014716,
+          "mean_pred": 0.0936071053147316,
           "status": "warning",
           "warnings": [
             "Brier rise at 0.015 \u2014 past 50% of the alert threshold (0.02)"
           ],
           "retrain_recommended": false,
           "reasons": [],
-          "auroc_drop": -0.017463541417336637,
-          "brier_rise": 0.014526128768920898
+          "auroc_drop": -0.016604490656627835,
+          "brier_rise": 0.01470599809792933
         },
         {
           "window": 5,
@@ -339,19 +341,19 @@
           "drift_share": 0.046511627906976744,
           "n": 6999,
           "prevalence": 0.10230032861837406,
-          "auroc": 0.6541303259571585,
-          "auprc": 0.2085667538538672,
-          "brier": 0.0880490243434906,
-          "alert_rate": 0.3486212316045149,
-          "mean_pred": 0.0977589413523674,
+          "auroc": 0.6564659269448374,
+          "auprc": 0.20365697818170023,
+          "brier": 0.0882445047855647,
+          "alert_rate": 0.3574796399485641,
+          "mean_pred": 0.09738446772098541,
           "status": "warning",
           "warnings": [
             "Brier rise at 0.012 \u2014 past 50% of the alert threshold (0.02)"
           ],
           "retrain_recommended": false,
           "reasons": [],
-          "auroc_drop": -0.0002674828045824418,
-          "brier_rise": 0.012281127274036407
+          "auroc_drop": -0.002443814114707621,
+          "brier_rise": 0.01248590902746291
         },
         {
           "window": 6,
@@ -359,19 +361,19 @@
           "drift_share": 0.06976744186046512,
           "n": 6999,
           "prevalence": 0.10401485926560937,
-          "auroc": 0.6582901232079992,
-          "auprc": 0.2004077762947794,
-          "brier": 0.0898907333612442,
-          "alert_rate": 0.35447921131590227,
-          "mean_pred": 0.09739904850721359,
+          "auroc": 0.6558299279256862,
+          "auprc": 0.1961237054198466,
+          "brier": 0.0900237123580869,
+          "alert_rate": 0.35762251750250035,
+          "mean_pred": 0.09731870144605637,
           "status": "warning",
           "warnings": [
             "Brier rise at 0.014 \u2014 past 50% of the alert threshold (0.02)"
           ],
           "retrain_recommended": false,
           "reasons": [],
-          "auroc_drop": -0.004427280055423144,
-          "brier_rise": 0.014122836291790009
+          "auroc_drop": -0.0018078150955563865,
+          "brier_rise": 0.014265116599985112
         },
         {
           "window": 7,
@@ -379,19 +381,19 @@
           "drift_share": 0.06976744186046512,
           "n": 6999,
           "prevalence": 0.10115730818688384,
-          "auroc": 0.6609933749855188,
-          "auprc": 0.21003680307326753,
-          "brier": 0.08699434250593185,
-          "alert_rate": 0.3573367623946278,
-          "mean_pred": 0.0982433333992958,
+          "auroc": 0.6555636830302818,
+          "auprc": 0.21122709091988393,
+          "brier": 0.08704004540850722,
+          "alert_rate": 0.35890841548792685,
+          "mean_pred": 0.09826255589723587,
           "status": "warning",
           "warnings": [
             "Brier rise at 0.011 \u2014 past 50% of the alert threshold (0.02)"
           ],
           "retrain_recommended": false,
           "reasons": [],
-          "auroc_drop": -0.007130531832942766,
-          "brier_rise": 0.011226445436477661
+          "auroc_drop": -0.0015415702001519982,
+          "brier_rise": 0.011281449650405437
         },
         {
           "window": 8,
@@ -399,75 +401,75 @@
           "drift_share": 0.06976744186046512,
           "n": 6999,
           "prevalence": 0.09901414487783969,
-          "auroc": 0.6490632389776063,
-          "auprc": 0.19958662868077234,
-          "brier": 0.08578620105981827,
-          "alert_rate": 0.3653379054150593,
-          "mean_pred": 0.0982062965631485,
+          "auroc": 0.6509760282357808,
+          "auprc": 0.1975773384154848,
+          "brier": 0.08587518771715372,
+          "alert_rate": 0.37119588512644663,
+          "mean_pred": 0.09827668219804764,
           "status": "warning",
           "warnings": [
             "Brier rise at 0.010 \u2014 past 50% of the alert threshold (0.02)"
           ],
           "retrain_recommended": false,
           "reasons": [],
-          "auroc_drop": 0.004799604174969718,
-          "brier_rise": 0.010018303990364075
+          "auroc_drop": 0.0030460845943489634,
+          "brier_rise": 0.01011659195905193
         }
       ],
       "top_drifted_columns": [
         {
           "column": "age",
           "method": "Jensen-Shannon distance",
-          "score": 0.21863826508707662,
+          "score": 0.21863826508707657,
           "threshold": 0.1,
           "detected": true
         },
         {
           "column": "discharge_disposition_id",
           "method": "Jensen-Shannon distance",
-          "score": 0.08443782171938993,
+          "score": 0.08443782171939018,
           "threshold": 0.1,
           "detected": false
         },
         {
           "column": "medical_specialty",
           "method": "Jensen-Shannon distance",
-          "score": 0.07504853643150976,
+          "score": 0.07504853643150963,
           "threshold": 0.1,
           "detected": false
         },
         {
           "column": "diag_1_group",
           "method": "Jensen-Shannon distance",
-          "score": 0.06479743694526881,
+          "score": 0.06479743694526875,
           "threshold": 0.1,
           "detected": false
         },
         {
           "column": "diag_2_group",
           "method": "Jensen-Shannon distance",
-          "score": 0.04908033408259645,
+          "score": 0.04908033408259659,
           "threshold": 0.1,
           "detected": false
         },
         {
           "column": "race",
           "method": "Jensen-Shannon distance",
-          "score": 0.042679756486814456,
+          "score": 0.042679756486814886,
           "threshold": 0.1,
           "detected": false
         },
         {
           "column": "diag_3_group",
           "method": "Jensen-Shannon distance",
-          "score": 0.042529423943364564,
+          "score": 0.04252942394336557,
           "threshold": 0.1,
           "detected": false
         },
         {
           "column": "A1Cresult",
           "method": "Jensen-Shannon distance",
-          "score": 0.03781877763618083,
+          "score": 0.03781877763618078,
           "threshold": 0.1,
           "detected": false
         }
@@ -478,19 +480,19 @@
       "drift_share": 0.023255813953488372,
       "n": 6999,
       "prevalence": 0.09387055293613374,
-      "auroc": 0.6104705553131571,
-      "auprc": 0.1518307819956213,
-      "brier": 0.08400021493434906,
-      "alert_rate": 0.1490212887555365,
-      "mean_pred": 0.072906993329525,
-      "auroc_drop": 0.04339228783941895,
-      "brier_rise": 0.008232317864894867,
+      "auroc": 0.6133973361134751,
+      "auprc": 0.15163492373394483,
+      "brier": 0.08401785362082136,
+      "alert_rate": 0.15016430918702672,
+      "mean_pred": 0.07276848703622818,
+      "auroc_drop": 0.040624776716654654,
+      "brier_rise": 0.008259257862719568,
       "status": "retrain",
       "retrain_recommended": true,
       "reasons": [
-        "AUROC fell 0.043 (>=0.03) vs reference"
+        "AUROC fell 0.041 (>=0.03) vs reference"
       ],
-      "first_flagged_window": 5,
+      "first_flagged_window": 4,
       "consecutive_retrain_windows": 4,
       "windows": [
         {
@@ -499,17 +501,17 @@
           "drift_share": 0.0,
           "n": 6999,
           "prevalence": 0.09301328761251608,
-          "auroc": 0.6553066050291491,
-          "auprc": 0.20511320249409387,
-          "brier": 0.08060762286186218,
-          "alert_rate": 0.2861837405343621,
-          "mean_pred": 0.08888965100049973,
+          "auroc": 0.6565478489300064,
+          "auprc": 0.20238107752919238,
+          "brier": 0.08070398766423525,
+          "alert_rate": 0.2907558222603229,
+          "mean_pred": 0.0889427587389946,
           "status": "ok",
           "warnings": [],
           "retrain_recommended": false,
           "reasons": [],
-          "auroc_drop": -0.0014437618765730242,
-          "brier_rise": 0.0048397257924079895
+          "auroc_drop": -0.0025257360998766076,
+          "brier_rise": 0.004945391906133467
         },
         {
           "window": 2,
@@ -517,17 +519,17 @@
           "drift_share": 0.0,
           "n": 6999,
           "prevalence": 0.09215602228889841,
-          "auroc": 0.6591355503339165,
-          "auprc": 0.20458753399324953,
-          "brier": 0.07981634140014648,
-          "alert_rate": 0.27546792398914133,
-          "mean_pred": 0.08857890218496323,
+          "auroc": 0.6595181451957262,
+          "auprc": 0.20492316191631155,
+          "brier": 0.07984161139854157,
+          "alert_rate": 0.28332618945563653,
+          "mean_pred": 0.08861814439296722,
           "status": "ok",
           "warnings": [],
           "retrain_recommended": false,
           "reasons": [],
-          "auroc_drop": -0.00527270718134043,
-          "brier_rise": 0.004048444330692291
+          "auroc_drop": -0.0054960323655963705,
+          "brier_rise": 0.00408301564043978
         },
         {
           "window": 3,
@@ -535,17 +537,17 @@
           "drift_share": 0.0,
           "n": 6999,
           "prevalence": 0.09801400200028576,
-          "auroc": 0.6600646821150673,
-          "auprc": 0.21507285787807226,
-          "brier": 0.08442480862140656,
-          "alert_rate": 0.25575082154593515,
-          "mean_pred": 0.085660919547081,
+          "auroc": 0.6590940578444499,
+          "auprc": 0.21495148422315635,
+          "brier": 0.08441840895771673,
+          "alert_rate": 0.2613230461494499,
+          "mean_pred": 0.08580274134874344,
           "status": "ok",
           "warnings": [],
           "retrain_recommended": false,
           "reasons": [],
-          "auroc_drop": -0.006201838962491268,
-          "brier_rise": 0.008656911551952362
+          "auroc_drop": -0.005071945014320067,
+          "brier_rise": 0.008659813199614938
         },
         {
           "window": 4,
@@ -553,17 +555,19 @@
           "drift_share": 0.023255813953488372,
           "n": 6999,
           "prevalence": 0.09887126732390342,
-          "auroc": 0.6483222146967632,
-          "auprc": 0.2070770400800983,
-          "brier": 0.08570216596126556,
-          "alert_rate": 0.22317473924846407,
-          "mean_pred": 0.08172756433486938,
-          "status": "ok",
-          "warnings": [],
+          "auroc": 0.6495924795919021,
+          "auprc": 0.2078336621822224,
+          "brier": 0.08578544851010927,
+          "alert_rate": 0.22646092298899842,
+          "mean_pred": 0.08176367729902267,
+          "status": "warning",
+          "warnings": [
+            "Brier rise at 0.010 \u2014 past 50% of the alert threshold (0.02)"
+          ],
           "retrain_recommended": false,
           "reasons": [],
-          "auroc_drop": 0.005540628455812824,
-          "brier_rise": 0.00993426889181137
+          "auroc_drop": 0.004429633238227648,
+          "brier_rise": 0.010026852752007487
         },
         {
           "window": 5,
@@ -571,19 +575,19 @@
           "drift_share": 0.023255813953488372,
           "n": 6999,
           "prevalence": 0.09558508358336905,
-          "auroc": 0.6141344158006219,
-          "auprc": 0.1677739966252425,
-          "brier": 0.08473332971334457,
-          "alert_rate": 0.18431204457779682,
-          "mean_pred": 0.07731341570615768,
+          "auroc": 0.6169433050673354,
+          "auprc": 0.16782200691703694,
+          "brier": 0.08476633219992934,
+          "alert_rate": 0.18559794256322332,
+          "mean_pred": 0.07736289501190186,
           "status": "retrain",
           "warnings": [],
           "retrain_recommended": true,
           "reasons": [
-            "AUROC fell 0.040 (>=0.03) vs reference"
+            "AUROC fell 0.037 (>=0.03) vs reference"
           ],
-          "auroc_drop": 0.03972842735195414,
-          "brier_rise": 0.00896543264389038
+          "auroc_drop": 0.037078807762794375,
+          "brier_rise": 0.009007736441827549
         },
         {
           "window": 6,
@@ -591,19 +595,19 @@
           "drift_share": 0.023255813953488372,
           "n": 6999,
           "prevalence": 0.09487069581368766,
-          "auroc": 0.5991893382527743,
-          "auprc": 0.14044021754852984,
-          "brier": 0.08532547950744629,
-          "alert_rate": 0.14802114587798257,
-          "mean_pred": 0.07281504571437836,
+          "auroc": 0.5985110925152861,
+          "auprc": 0.13717086725203964,
+          "brier": 0.08543597174563845,
+          "alert_rate": 0.15216459494213458,
+          "mean_pred": 0.07266426086425781,
           "status": "retrain",
           "warnings": [],
           "retrain_recommended": true,
           "reasons": [
-            "AUROC fell 0.055 (>=0.03) vs reference"
+            "AUROC fell 0.056 (>=0.03) vs reference"
           ],
-          "auroc_drop": 0.05467350489980172,
-          "brier_rise": 0.009557582437992096
+          "auroc_drop": 0.05551102031484367,
+          "brier_rise": 0.009677375987536666
         },
         {
           "window": 7,
@@ -611,19 +615,19 @@
           "drift_share": 0.023255813953488372,
           "n": 6999,
           "prevalence": 0.10087155307901129,
-          "auroc": 0.6211651373957934,
-          "auprc": 0.17514183250434795,
-          "brier": 0.08940626680850983,
-          "alert_rate": 0.14130590084297756,
-          "mean_pred": 0.07237149775028229,
+          "auroc": 0.6189414561527737,
+          "auprc": 0.1724074086007867,
+          "brier": 0.08949504482225319,
+          "alert_rate": 0.1441634519217031,
+          "mean_pred": 0.07231805473566055,
           "status": "retrain",
           "warnings": [],
           "retrain_recommended": true,
           "reasons": [
-            "AUROC fell 0.033 (>=0.03) vs reference"
+            "AUROC fell 0.035 (>=0.03) vs reference"
           ],
-          "auroc_drop": 0.03269770575678266,
-          "brier_rise": 0.013638369739055634
+          "auroc_drop": 0.03508065667735605,
+          "brier_rise": 0.013736449064151404
         },
         {
           "window": 8,
@@ -631,75 +635,75 @@
           "drift_share": 0.023255813953488372,
           "n": 6999,
           "prevalence": 0.09387055293613374,
-          "auroc": 0.6104705553131571,
-          "auprc": 0.1518307819956213,
-          "brier": 0.08400021493434906,
-          "alert_rate": 0.1490212887555365,
-          "mean_pred": 0.072906993329525,
+          "auroc": 0.6133973361134751,
+          "auprc": 0.15163492373394483,
+          "brier": 0.08401785362082136,
+          "alert_rate": 0.15016430918702672,
+          "mean_pred": 0.07276848703622818,
           "status": "retrain",
           "warnings": [],
           "retrain_recommended": true,
           "reasons": [
-            "AUROC fell 0.043 (>=0.03) vs reference"
+            "AUROC fell 0.041 (>=0.03) vs reference"
           ],
-          "auroc_drop": 0.04339228783941895,
-          "brier_rise": 0.008232317864894867
+          "auroc_drop": 0.040624776716654654,
+          "brier_rise": 0.008259257862719568
         }
       ],
       "top_drifted_columns": [
         {
           "column": "discharge_disposition_id",
           "method": "Jensen-Shannon distance",
-          "score": 0.3805825299082541,
+          "score": 0.38058252990825414,
           "threshold": 0.1,
           "detected": true
         },
         {
           "column": "medical_specialty",
           "method": "Jensen-Shannon distance",
-          "score": 0.0469979288273432,
+          "score": 0.046997928827343306,
           "threshold": 0.1,
           "detected": false
         },
         {
           "column": "admission_source_id",
           "method": "Jensen-Shannon distance",
-          "score": 0.027873373703181194,
+          "score": 0.027873373703182013,
           "threshold": 0.1,
           "detected": false
         },
         {
           "column": "diag_1_group",
           "method": "Jensen-Shannon distance",
-          "score": 0.025654993873992893,
+          "score": 0.02565499387399254,
           "threshold": 0.1,
           "detected": false
         },
         {
           "column": "age",
           "method": "Jensen-Shannon distance",
-          "score": 0.017246285759310497,
+          "score": 0.01724628575931012,
           "threshold": 0.1,
           "detected": false
         },
         {
           "column": "diag_2_group",
           "method": "Jensen-Shannon distance",
-          "score": 0.016515025282541358,
+          "score": 0.01651502528254289,
           "threshold": 0.1,
           "detected": false
         },
         {
           "column": "max_glu_serum",
           "method": "Jensen-Shannon distance",
-          "score": 0.016408981641675865,
+          "score": 0.016408981641675945,
           "threshold": 0.1,
           "detected": false
         },
         {
           "column": "metformin",
           "method": "Jensen-Shannon distance",
-          "score": 0.015664031933400737,
+          "score": 0.015664031933401913,
           "threshold": 0.1,
           "detected": false
         }
@@ -710,13 +714,13 @@
       "drift_share": 0.023255813953488372,
       "n": 6999,
       "prevalence": 0.2327475353621946,
-      "auroc": 0.6787375696323503,
-      "auprc": 0.4306055655821104,
-      "brier": 0.18451690673828125,
-      "alert_rate": 0.32790398628375483,
-      "mean_pred": 0.09635654091835022,
-      "auroc_drop": -0.02487472647977429,
-      "brier_rise": 0.10874900966882706,
+      "auroc": 0.6788211913262069,
+      "auprc": 0.4298416586713498,
+      "brier": 0.18463856870186465,
+      "alert_rate": 0.3307615373624804,
+      "mean_pred": 0.09625376015901566,
+      "auroc_drop": -0.024799078496077098,
+      "brier_rise": 0.10887997294376286,
       "status": "retrain",
       "retrain_recommended": true,
       "reasons": [
@@ -731,17 +735,17 @@
           "drift_share": 0.0,
           "n": 6999,
           "prevalence": 0.08944134876410915,
-          "auroc": 0.6535980216057258,
-          "auprc": 0.22098371443815795,
-          "brier": 0.07709988206624985,
-          "alert_rate": 0.28504072010287185,
-          "mean_pred": 0.08816513419151306,
+          "auroc": 0.6549856648630981,
+          "auprc": 0.21786680912159176,
+          "brier": 0.07729313038235659,
+          "alert_rate": 0.28904129161308756,
+          "mean_pred": 0.08814801275730133,
           "status": "ok",
           "warnings": [],
           "retrain_recommended": false,
           "reasons": [],
-          "auroc_drop": 0.00026482154685025794,
-          "brier_rise": 0.0013319849967956543
+          "auroc_drop": -0.0009635520329682734,
+          "brier_rise": 0.0015345346242548047
         },
         {
           "window": 2,
@@ -749,17 +753,17 @@
           "drift_share": 0.0,
           "n": 6999,
           "prevalence": 0.09172738962708958,
-          "auroc": 0.6458629508913323,
-          "auprc": 0.196544816779575,
-          "brier": 0.07989808171987534,
-          "alert_rate": 0.2777539648521217,
-          "mean_pred": 0.08772873878479004,
+          "auroc": 0.6419312583523351,
+          "auprc": 0.18786006255399662,
+          "brier": 0.08026419759673817,
+          "alert_rate": 0.2878982711815974,
+          "mean_pred": 0.0879388302564621,
           "status": "ok",
           "warnings": [],
           "retrain_recommended": false,
           "reasons": [],
-          "auroc_drop": 0.007999892261243757,
-          "brier_rise": 0.004130184650421143
+          "auroc_drop": 0.012090854477794677,
+          "brier_rise": 0.0045056018386363805
         },
         {
           "window": 3,
@@ -767,19 +771,19 @@
           "drift_share": 0.0,
           "n": 6999,
           "prevalence": 0.13644806400914417,
-          "auroc": 0.678005966715292,
-          "auprc": 0.3001033558950188,
-          "brier": 0.11235910654067993,
-          "alert_rate": 0.3180454350621517,
-          "mean_pred": 0.09213867038488388,
+          "auroc": 0.6792433151652282,
+          "auprc": 0.2991967676444908,
+          "brier": 0.11245207275917712,
+          "alert_rate": 0.3241891698814116,
+          "mean_pred": 0.09187152236700058,
           "status": "retrain",
           "warnings": [],
           "retrain_recommended": true,
           "reasons": [
             "Brier rose 0.037 (>=0.02) vs reference"
           ],
-          "auroc_drop": -0.024143123562715973,
-          "brier_rise": 0.03659120947122574
+          "auroc_drop": -0.02522120233509839,
+          "brier_rise": 0.036693477001075336
         },
         {
           "window": 4,
@@ -787,19 +791,19 @@
           "drift_share": 0.0,
           "n": 6999,
           "prevalence": 0.1680240034290613,
-          "auroc": 0.644939694923135,
-          "auprc": 0.29379766478242425,
-          "brier": 0.13959823548793793,
-          "alert_rate": 0.2891841691670239,
-          "mean_pred": 0.09101278334856033,
+          "auroc": 0.6436226388202542,
+          "auprc": 0.28602818476910324,
+          "brier": 0.1399672934038033,
+          "alert_rate": 0.30561508786969566,
+          "mean_pred": 0.09114107489585876,
           "status": "retrain",
           "warnings": [],
           "retrain_recommended": true,
           "reasons": [
             "Brier rose 0.064 (>=0.02) vs reference"
           ],
-          "auroc_drop": 0.008923148229441069,
-          "brier_rise": 0.06383033841848373
+          "auroc_drop": 0.01039947400987562,
+          "brier_rise": 0.0642086976457015
         },
         {
           "window": 5,
@@ -807,19 +811,19 @@
           "drift_share": 0.0,
           "n": 6999,
           "prevalence": 0.19874267752536076,
-          "auroc": 0.655770846003091,
-          "auprc": 0.3651021497733119,
-          "brier": 0.16065210103988647,
-          "alert_rate": 0.32604657808258325,
-          "mean_pred": 0.0951300710439682,
+          "auroc": 0.6557573857209225,
+          "auprc": 0.36521685278876137,
+          "brier": 0.1605882962527838,
+          "alert_rate": 0.327475353621946,
+          "mean_pred": 0.09529625624418259,
           "status": "retrain",
           "warnings": [],
           "retrain_recommended": true,
           "reasons": [
             "Brier rose 0.085 (>=0.02) vs reference"
           ],
-          "auroc_drop": -0.001908002850514956,
-          "brier_rise": 0.08488420397043228
+          "auroc_drop": -0.0017352728907926718,
+          "brier_rise": 0.08482970049468203
         },
         {
           "window": 6,
@@ -827,19 +831,19 @@
           "drift_share": 0.0,
           "n": 6999,
           "prevalence": 0.22446063723389056,
-          "auroc": 0.6660936502478836,
-          "auprc": 0.40171316475479735,
-          "brier": 0.17995326220989227,
-          "alert_rate": 0.3346192313187598,
-          "mean_pred": 0.09535461664199829,
+          "auroc": 0.6601448180849752,
+          "auprc": 0.3950104024855851,
+          "brier": 0.18039597091727705,
+          "alert_rate": 0.33433347621088727,
+          "mean_pred": 0.09527844935655594,
           "status": "retrain",
           "warnings": [],
           "retrain_recommended": true,
           "reasons": [
-            "Brier rose 0.104 (>=0.02) vs reference"
+            "Brier rose 0.105 (>=0.02) vs reference"
           ],
-          "auroc_drop": -0.01223080709530755,
-          "brier_rise": 0.10418536514043808
+          "auroc_drop": -0.006122705254845373,
+          "brier_rise": 0.10463737515917526
         },
         {
           "window": 7,
@@ -847,19 +851,19 @@
           "drift_share": 0.0,
           "n": 6999,
           "prevalence": 0.2304614944992142,
-          "auroc": 0.6532039046836543,
-          "auprc": 0.39448573074739823,
-          "brier": 0.18528665602207184,
-          "alert_rate": 0.3220460065723675,
-          "mean_pred": 0.09595553576946259,
+          "auroc": 0.6582224264464667,
+          "auprc": 0.39964855957278544,
+          "brier": 0.18496240736078187,
+          "alert_rate": 0.320760108586941,
+          "mean_pred": 0.09599468857049942,
           "status": "retrain",
           "warnings": [],
           "retrain_recommended": true,
           "reasons": [
-            "Brier rose 0.110 (>=0.02) vs reference"
+            "Brier rose 0.109 (>=0.02) vs reference"
           ],
-          "auroc_drop": 0.0006589384689217326,
-          "brier_rise": 0.10951875895261765
+          "auroc_drop": -0.0042003136163368815,
+          "brier_rise": 0.10920381160268008
         },
         {
           "window": 8,
@@ -867,75 +871,75 @@
           "drift_share": 0.023255813953488372,
           "n": 6999,
           "prevalence": 0.2327475353621946,
-          "auroc": 0.6787375696323503,
-          "auprc": 0.4306055655821104,
-          "brier": 0.18451690673828125,
-          "alert_rate": 0.32790398628375483,
-          "mean_pred": 0.09635654091835022,
+          "auroc": 0.6788211913262069,
+          "auprc": 0.4298416586713498,
+          "brier": 0.18463856870186465,
+          "alert_rate": 0.3307615373624804,
+          "mean_pred": 0.09625376015901566,
           "status": "retrain",
           "warnings": [],
           "retrain_recommended": true,
           "reasons": [
             "Brier rose 0.109 (>=0.02) vs reference"
           ],
-          "auroc_drop": -0.02487472647977429,
-          "brier_rise": 0.10874900966882706
+          "auroc_drop": -0.024799078496077098,
+          "brier_rise": 0.10887997294376286
         }
       ],
       "top_drifted_columns": [
         {
           "column": "medical_specialty",
           "method": "Jensen-Shannon distance",
-          "score": 0.05773796171216426,
+          "score": 0.057737961712164096,
           "threshold": 0.1,
           "detected": false
         },
         {
           "column": "discharge_disposition_id",
           "method": "Jensen-Shannon distance",
-          "score": 0.03703052927359648,
+          "score": 0.03703052927359656,
           "threshold": 0.1,
           "detected": false
         },
         {
           "column": "diag_1_group",
           "method": "Jensen-Shannon distance",
-          "score": 0.03356402444631593,
+          "score": 0.03356402444631575,
           "threshold": 0.1,
           "detected": false
         },
         {
           "column": "admission_source_id",
           "method": "Jensen-Shannon distance",
-          "score": 0.02275856294612636,
+          "score": 0.02275856294612629,
           "threshold": 0.1,
           "detected": false
         },
         {
           "column": "diag_2_group",
           "method": "Jensen-Shannon distance",
-          "score": 0.022247826673997835,
+          "score": 0.022247826673996843,
           "threshold": 0.1,
           "detected": false
         },
         {
           "column": "glimepiride",
           "method": "Jensen-Shannon distance",
-          "score": 0.022046618162789546,
+          "score": 0.022046618162789623,
           "threshold": 0.1,
           "detected": false
         },
         {
           "column": "max_glu_serum",
           "method": "Jensen-Shannon distance",
-          "score": 0.02195566625108972,
+          "score": 0.021955666251088597,
           "threshold": 0.1,
           "detected": false
         },
         {
           "column": "age",
           "method": "Jensen-Shannon distance",
-          "score": 0.021259005676377316,
+          "score": 0.0212590056763766,
           "threshold": 0.1,
           "detected": false
         }

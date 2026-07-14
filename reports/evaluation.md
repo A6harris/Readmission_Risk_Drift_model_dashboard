@@ -8,7 +8,7 @@ Serialized model: **xgboost**.
   genuinely hard outcome to predict from administrative data; published models
   on this dataset sit in a similar range. A respectable-looking AUROC would be
   a red flag, not a triumph.
-- **AUPRC = 0.187** vs. a no-skill baseline of 0.090. The model
+- **AUPRC = 0.188** vs. a no-skill baseline of 0.090. The model
   carries real signal over chance, but precision is inherently limited by the
   low base rate — most flagged patients will not be readmitted within 30 days.
 
@@ -20,7 +20,7 @@ Serialized model: **xgboost**.
   care-management time.
 
 ## Net benefit (decision-curve analysis)
-- Across threshold probabilities in roughly **3%–51%**,
+- Across threshold probabilities in roughly **4%–49%**,
   using the model to prioritize outreach yields higher net benefit than either
   "contact everyone" or "contact no one" (`figures/decision_curve.png`). This is
   the question that actually matters operationally: *given finite staff, does
