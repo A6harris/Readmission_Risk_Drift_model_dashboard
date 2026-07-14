@@ -2,17 +2,22 @@
 
 ![Python](https://img.shields.io/badge/python-3.11-blue) ![License: MIT](https://img.shields.io/badge/license-MIT-green)
 
-A 30-day hospital readmission model wrapped in the governance layer production
-healthcare AI actually requires: subgroup fairness auditing, explainability,
-calibration and net-benefit analysis, and a live monitoring dashboard that
-tracks drift and model performance over time and raises tiered retraining
-alerts.
+An underexplored and underthought critical aspect of predictive health systems
+is what happens when the input data drifts, and how the model responds. How
+does it perform after launch? A year after launch? Five years after launch?
+Can it self-correct if the demographics of the patients it predicts on change
+slowly over time? What if the demographics switch suddenly?
 
-**The point isn't the AUC. The point is everything around it.** Most healthcare
-ML demos stop at "I trained a model and got X AUC." Real clinical AI fails
-*after* deployment — the population shifts, a pipeline silently breaks, the
-model meets a hospital it was never validated on — and nobody notices until
-people are affected. This project builds the part that notices.
+Governance of health AI systems is absolutely essential, and it will be key to
+the future of healthcare. **The point of this project isn't the AUC — it's
+everything around it.** Most healthcare ML models stop at "I trained a model
+and got X AUC." Clinical AI systems in the real world fail *after* deployment,
+and no one notices until a patient is negatively affected. This project aims
+to build the part of the system that can notice before a patient is hurt.
+
+I built a live monitoring dashboard that watches for patient demographic
+shifts, pipelines breaking, and the model meeting a hospital it was never
+validated on.
 
 ## What's inside
 
@@ -56,7 +61,8 @@ Cloud, Hugging Face Spaces, Docker), see [`DEPLOY.md`](DEPLOY.md).
 
 Each drift scenario plays out as a stream of monitoring windows — weekly
 batches of production scoring data — compared against a validated reference
-window. The shift begins mid-stream and ramps up, the way real drift arrives:
+window. The simulated shift begins mid-stream and ramps up, the way real
+drift arrives:
 
 | Scenario | What it simulates |
 |---|---|
@@ -65,33 +71,36 @@ window. The shift begins mid-stream and ramps up, the way real drift arrives:
 | `pipeline_break` | The model's top feature collapses to a default as a broken upstream job rolls out |
 | `prevalence_surge` | Readmissions spike, COVID-style — label shift with almost no feature drift |
 
-Every window is scored against an explicit, auditable alert policy:
+Each window is scored against an explicit, auditable alert policy:
 
 - **Rules** — data drift (≥ 30 % of features drifted), discrimination (AUROC
   falls ≥ 0.03), calibration (Brier rises ≥ 0.02).
-- **Tiers** — **WARNING** when a metric passes 50 % of the way to its
-  threshold; **RETRAIN** on breach.
-- **Sustained-breach confirmation** — a retraining recommendation requires ≥ 2
-  consecutive breaching windows, so one noisy week never trips it.
+- **Tiers** — a **WARNING** is issued to a human in the loop when a metric
+  passes 50 % of the way to its threshold; **RETRAIN** on a breach of the
+  threshold.
+- **Sustained-breach confirmation** — to reduce alert fatigue, a retraining
+  recommendation requires at least 2 consecutive breaching windows, so one
+  noisy week never trips it.
 
 ![Drift timeline](docs/figures/drift_timeline.png)
 
-The final, fully-shifted window of each scenario gets a full Evidently report
-with per-feature drift attribution — an alert tells you *which* fields moved,
-not just that something did:
+The final window of each scenario gets a full Evidently report with
+per-feature drift attribution — an alert tells you *which* fields moved, not
+just that something did:
 
 ![Drift monitoring panel](docs/figures/drift_panel.png)
 
-The scenarios are designed so each detector earns its place. The benign
-`age_shift` is *detected but never flagged for retraining* — it holds at
-WARNING. `pipeline_break` barely registers as data drift (one column of 43)
-but trips the AUROC rule. `prevalence_surge` breaks calibration with
-essentially no feature drift at all — label shift is invisible to
-feature-drift monitoring and must be caught by performance tracking. Both
-harmful cases are failures that pure data-drift monitoring would miss.
+The scenarios are designed so that each detector earns its place. The
+`age_shift` experiment is detected but never explicitly flagged as needing
+retraining — it holds at just a WARNING. The `pipeline_break` experiment
+barely even registers as data drift (one column of 43), but it trips the
+AUROC rule. `prevalence_surge` breaks calibration with essentially no feature
+drift at all — the label shift is basically invisible to feature-drift
+monitoring, and has to be caught by performance tracking. Both harmful cases
+are failures that pure data-drift monitoring would miss.
 
 **Closing the loop:** [`src/retrain_trigger.py`](src/retrain_trigger.py)
-retrains when the policy is breached and appends every decision — acted on or
+retrains when the policy is breached and appends every decision — to act or
 not — to an audit log, which the dashboard displays.
 
 ## Results at a glance
@@ -103,11 +112,12 @@ _Held-out test set (n = 13,998), 30-day readmission prevalence ≈ 9.0 %._
 | Logistic regression (baseline) | 0.651 | 0.173 | — |
 | **XGBoost (selected)** | **0.658** | **0.187** | **0.0785** |
 
-The AUROC is modest **by design** — 30-day readmission is genuinely hard to
-predict from administrative data, and a suspiciously high number would be the
-red flag. What matters is that the model is **calibrated** (Brier 0.0785 beats
-the no-skill baseline of 0.0817) and adds **net benefit** across a realistic
-outreach threshold band (~3 %–51 %).
+The AUROC is modest **by design** — 30-day readmission after treatment is
+genuinely hard to predict from administrative data alone, and if it were very
+high, that would be a red flag for data leakage. What matters is that the
+model is **calibrated** (Brier 0.0785 beats the no-skill baseline of 0.0817)
+and adds **net benefit** across a realistic outreach threshold band
+(~3 %–51 %).
 
 | Calibration | Net benefit (decision curve) |
 |---|---|
@@ -117,9 +127,9 @@ outreach threshold band (~3 %–51 %).
 and `medical_specialty`; `discharge_disposition_id` is **flagged for
 leakage/shortcut scrutiny**.
 
-**Fairness.** Calibration holds across subgroups, but reliability varies most
-by **age** (recall gap ≈ 0.35). The smallest subgroups are too small (n < 100)
-to estimate reliably — itself a key finding.
+**Fairness.** Calibration holds strong across subgroups, but reliability
+varies most by **age** (recall gap ≈ 0.35). The smallest subgroups are too
+small (n < 100) to estimate reliably — itself a key finding.
 
 | SHAP importance | Fairness by age |
 |---|---|
