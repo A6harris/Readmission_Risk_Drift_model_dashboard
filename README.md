@@ -21,19 +21,19 @@ validated on.
 
 ## What's inside
 
-- 🧮 **Readmission model** — logistic-regression baseline + XGBoost on the UCI
+- **Readmission model** — logistic-regression baseline + XGBoost on the UCI
   Diabetes 130-US Hospitals dataset.
-- 📈 **Honest evaluation** — AUROC/AUPRC, calibration (Brier), and
+- **Honest evaluation** — AUROC/AUPRC, calibration (Brier), and
   decision-curve / net-benefit analysis.
-- ⚖️ **Fairness audit** — per-subgroup performance and disparity metrics
+- **Fairness audit** — per-subgroup performance and disparity metrics
   (Fairlearn) across race, gender, and age.
-- 🔍 **Explainability** — global and per-prediction SHAP.
-- 🚨 **Drift monitoring** — simulated production streams, tiered
+- **Explainability** — global and per-prediction SHAP.
+- **Drift monitoring** — simulated production streams, tiered
   OK → WARNING → RETRAIN alerting, per-feature drift attribution (Evidently),
   and an automated, logged retraining trigger.
-- 📋 **Model card** — written to TRIPOD+AI structure
+- **Model card** — written to TRIPOD+AI structure
   ([`models/model_card.md`](models/model_card.md)).
-- 🐳 **Reproducible** — one-command Docker run.
+- **Reproducible** — one-command Docker run.
 
 ## Quickstart
 
