@@ -6,7 +6,7 @@ An underexplored and underthought critical aspect of predictive health systems
 is what happens when the input data drifts, and how the model responds. How
 does it perform after launch? A year after launch? Five years after launch?
 Can it self-correct if the demographics of the patients it predicts on change
-slowly over time? What if the demographics switch suddenly?
+slowly over time? What if the demographics switch suddenly? 
 
 Governance of health AI systems is absolutely essential, and it will be key to
 the future of healthcare. **The point of this project isn't the AUC — it's
